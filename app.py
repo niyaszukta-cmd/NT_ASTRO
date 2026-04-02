@@ -634,144 +634,226 @@ def monthly_trading_calendar(dob, birth_nak):
 def generate_pdf(user_data: dict, analysis_data: dict, ai_text: str):
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.set_auto_page_break(auto=True, margin=20)
 
-    # Header
-    pdf.set_fill_color(10, 10, 20)
-    pdf.rect(0, 0, 210, 297, 'F')
+    # ── Color palette for WHITE background ──
+    # All text must be dark and readable on white paper
+    GOLD_DARK   = (139, 105, 20)   # dark gold — headings only
+    BLACK       = (20, 20, 20)     # near-black — body text
+    DARK_GREY   = (60, 60, 60)     # labels
+    MID_GREY    = (100, 100, 100)  # secondary text
+    RED_DARK    = (160, 30, 30)    # Rahu Kalam warning
+    GREEN_DARK  = (30, 120, 60)    # Abhijit Muhurta
+    GOLD_LINE   = (180, 140, 40)   # divider lines
+    BG_HEADER   = (25, 25, 45)     # dark header banner
+    BG_SECTION  = (248, 245, 238)  # very light cream section bg
 
+    def section_heading(text):
+        """Dark gold bold heading with cream background strip"""
+        pdf.set_fill_color(*BG_SECTION)
+        pdf.set_text_color(*GOLD_DARK)
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 9, "  " + text, ln=True, fill=True)
+        pdf.set_draw_color(*GOLD_LINE)
+        pdf.line(15, pdf.get_y(), 195, pdf.get_y())
+        pdf.ln(3)
+
+    def body_row(label, value, label_w=65):
+        """Label in dark grey, value in near-black"""
+        pdf.set_font("Helvetica", "B", 9)
+        pdf.set_text_color(*DARK_GREY)
+        pdf.cell(label_w, 6, label + ":", ln=False)
+        pdf.set_font("Helvetica", "", 9)
+        pdf.set_text_color(*BLACK)
+        pdf.cell(0, 6, str(value), ln=True)
+
+    # ── Page border ──
+    pdf.set_draw_color(*GOLD_LINE)
+    pdf.rect(8, 8, 194, 281)
+
+    # ── Header banner (dark, like app) ──
+    pdf.set_fill_color(*BG_HEADER)
+    pdf.rect(8, 8, 194, 32, 'F')
+
+    pdf.set_xy(10, 13)
     pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 22)
-    pdf.cell(0, 15, "VedicTrade - Astro Finance Report", ln=True, align="C")
+    pdf.set_font("Helvetica", "B", 20)
+    pdf.cell(0, 10, "  VedicTrade - Astro Finance Report", ln=True, align="L")
 
-    pdf.set_font("Helvetica", "", 10)
-    pdf.set_text_color(138, 128, 144)
-    pdf.cell(0, 6, f"Generated: {datetime.date.today().strftime('%d %B %Y')} | For: {user_data.get('name','Trader')}", ln=True, align="C")
+    pdf.set_font("Helvetica", "", 9)
+    pdf.set_text_color(200, 190, 170)
+    pdf.cell(0, 6, f"  Generated: {datetime.date.today().strftime('%d %B %Y')}   |   Trader: {user_data.get('name','Trader')}   |   For spiritual guidance only", ln=True, align="L")
 
-    pdf.ln(5)
-    pdf.set_draw_color(201, 168, 76)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(5)
+    pdf.ln(8)
 
-    # Birth Details
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "BIRTH DETAILS & PANCHANGA", ln=True)
-    pdf.set_font("Helvetica", "", 10)
-    pdf.set_text_color(232, 224, 208)
+    # ── SECTION 1: Birth Details ──
+    section_heading("BIRTH DETAILS & PANCHANGA")
 
     details = [
-        ("Date of Birth", str(user_data.get('dob',''))),
-        ("Birth Nakshatra", user_data.get('nakshatra','')),
-        ("Moon Sign (Rasi)", analysis_data.get('rasi','')),
-        ("Today's Nakshatra", analysis_data.get('today_nak','')),
-        ("Today's Tithi", f"{analysis_data.get('tithi','')} ({analysis_data.get('paksha','')})"),
-        ("Vara (Weekday)", analysis_data.get('vara','')),
+        ("Date of Birth",       str(user_data.get('dob',''))),
+        ("Birth Nakshatra",     user_data.get('nakshatra','')),
+        ("Moon Sign (Rasi)",    analysis_data.get('rasi','')),
+        ("Today's Nakshatra",   analysis_data.get('today_nak','')),
+        ("Today's Tithi",       f"{analysis_data.get('tithi','')} ({analysis_data.get('paksha','')})"),
+        ("Vara (Weekday)",      analysis_data.get('vara','')),
     ]
     for label, val in details:
-        pdf.set_text_color(138, 128, 144)
-        pdf.cell(60, 6, label + ":", ln=False)
-        pdf.set_text_color(232, 224, 208)
-        pdf.cell(0, 6, str(val), ln=True)
+        body_row(label, val)
 
     pdf.ln(4)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(4)
 
-    # Dasha
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "PLANETARY DASHA ANALYSIS", ln=True)
-    pdf.set_font("Helvetica", "", 10)
+    # ── SECTION 2: Dasha Analysis ──
+    section_heading("PLANETARY DASHA ANALYSIS")
 
-    maha = analysis_data.get('mahadasha','')
-    antar = analysis_data.get('antardasha','')
+    maha      = analysis_data.get('mahadasha','')
+    antar     = analysis_data.get('antardasha','')
     remaining = analysis_data.get('maha_remaining', 0)
 
     dasha_items = [
-        ("Mahadasha Lord", maha),
-        ("Antardasha Lord", antar),
-        ("Remaining in Mahadasha", f"{remaining} years"),
-        ("Wealth Potential Score", f"{analysis_data.get('wealth_score',0)}/100"),
-        ("Trading Strength (This Month)", analysis_data.get('trade_strength','')),
+        ("Mahadasha Lord",              maha),
+        ("Antardasha Lord",             antar),
+        ("Remaining in Mahadasha",      f"{remaining} years"),
+        ("Wealth Potential Score",      f"{analysis_data.get('wealth_score',0)} / 100"),
+        ("Trading Strength This Month", analysis_data.get('trade_strength','')),
     ]
     for label, val in dasha_items:
-        pdf.set_text_color(138, 128, 144)
-        pdf.cell(70, 6, label + ":", ln=False)
-        pdf.set_text_color(232, 224, 208)
-        pdf.cell(0, 6, str(val), ln=True)
+        body_row(label, val, label_w=75)
 
     pdf.ln(4)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(4)
 
-    # Lucky Sectors
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "FAVOURABLE SECTORS", ln=True)
-    pdf.set_font("Helvetica", "", 10)
-    pdf.set_text_color(232, 224, 208)
+    # ── SECTION 3: Favourable Sectors ──
+    section_heading("FAVOURABLE SECTORS (Based on Planetary Lords)")
+
     sectors = analysis_data.get('sectors', [])
-    for i, s in enumerate(sectors):
-        pdf.cell(0, 6, f"  {i+1}. {s}", ln=True)
-
-    pdf.ln(4)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(4)
-
-    # Choghadiya
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "TODAY'S CHOGHADIYA (MARKET HOURS)", ln=True)
     pdf.set_font("Helvetica", "", 9)
+    pdf.set_text_color(*BLACK)
+    # Two-column layout
+    col_w = 85
+    for i in range(0, len(sectors), 2):
+        pdf.set_font("Helvetica", "B", 9)
+        pdf.set_text_color(*GOLD_DARK)
+        pdf.cell(8, 6, f"{i+1}.", ln=False)
+        pdf.set_font("Helvetica", "", 9)
+        pdf.set_text_color(*BLACK)
+        pdf.cell(col_w - 8, 6, sectors[i], ln=False)
+        if i+1 < len(sectors):
+            pdf.set_font("Helvetica", "B", 9)
+            pdf.set_text_color(*GOLD_DARK)
+            pdf.cell(8, 6, f"{i+2}.", ln=False)
+            pdf.set_font("Helvetica", "", 9)
+            pdf.set_text_color(*BLACK)
+            pdf.cell(0, 6, sectors[i+1], ln=True)
+        else:
+            pdf.ln()
+
+    pdf.ln(4)
+
+    # ── SECTION 4: Choghadiya ──
+    section_heading("TODAY'S CHOGHADIYA - MARKET HOURS")
 
     chog = analysis_data.get('choghadiya', [])
-    for name, st, et, period in chog[:8]:
-        if period == "day":
-            q = CHOG_QUALITY.get(name, ("","","","",""))
-            pdf.set_text_color(138, 128, 144)
-            pdf.cell(35, 5, f"{st} - {et}", ln=False)
-            pdf.set_text_color(232, 224, 208)
-            pdf.cell(30, 5, name, ln=False)
-            pdf.set_text_color(138, 128, 144)
-            pdf.cell(0, 5, q[2] if len(q)>2 else "", ln=True)
+    day_chogs = [(n,s,e,p) for n,s,e,p in chog if p=="day"]
+
+    # Table header
+    pdf.set_fill_color(230, 222, 200)
+    pdf.set_text_color(*DARK_GREY)
+    pdf.set_font("Helvetica", "B", 8)
+    pdf.cell(40, 6, "Time Window", border=0, ln=False, fill=True)
+    pdf.cell(30, 6, "Choghadiya", border=0, ln=False, fill=True)
+    pdf.cell(30, 6, "Quality", border=0, ln=False, fill=True)
+    pdf.cell(0,  6, "Advice", border=0, ln=True, fill=True)
+
+    chog_colors = {
+        "Amrit":  (20, 100, 50),
+        "Shubh":  (40, 130, 40),
+        "Labh":   (20, 80, 150),
+        "Char":   (100, 80, 20),
+        "Kaal":   (150, 30, 30),
+        "Udveg":  (150, 80, 20),
+        "Rog":    (100, 30, 100),
+    }
+
+    pdf.set_font("Helvetica", "", 8)
+    for i, (name_c, st, et, _) in enumerate(day_chogs):
+        q = CHOG_QUALITY.get(name_c, ("","","Neutral","#888",""))
+        txt_color = chog_colors.get(name_c, BLACK)
+        fill = (248, 248, 248) if i % 2 == 0 else (255, 255, 255)
+        pdf.set_fill_color(*fill)
+        pdf.set_text_color(*DARK_GREY)
+        pdf.cell(40, 5, f"{st} - {et}", border=0, ln=False, fill=True)
+        pdf.set_text_color(*txt_color)
+        pdf.set_font("Helvetica", "B", 8)
+        pdf.cell(30, 5, name_c, border=0, ln=False, fill=True)
+        pdf.set_font("Helvetica", "", 8)
+        pdf.set_text_color(*DARK_GREY)
+        pdf.cell(30, 5, q[1] if len(q)>1 else "", border=0, ln=False, fill=True)
+        pdf.set_text_color(*BLACK)
+        pdf.cell(0,  5, q[2] if len(q)>2 else "", border=0, ln=True, fill=True)
 
     pdf.ln(4)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(4)
 
-    # Rahu Kalam
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "RAHU KALAM & ABHIJIT MUHURTA", ln=True)
-    pdf.set_font("Helvetica", "", 10)
-    rk = analysis_data.get('rahu_kalam', ('',''))
-    abh = analysis_data.get('abhijit', ('',''))
-    pdf.set_text_color(200, 60, 60)
-    pdf.cell(0, 6, f"Rahu Kalam (AVOID): {rk[0]} - {rk[1]}", ln=True)
-    pdf.set_text_color(39, 174, 96)
-    pdf.cell(0, 6, f"Abhijit Muhurta (BEST): {abh[0]} - {abh[1]}", ln=True)
+    # ── SECTION 5: Muhurtas ──
+    section_heading("RAHU KALAM & ABHIJIT MUHURTA")
 
-    pdf.ln(4)
-    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
-    pdf.ln(4)
+    rk  = analysis_data.get('rahu_kalam', ('--','--'))
+    abh = analysis_data.get('abhijit', ('--','--'))
 
-    # AI Analysis
-    pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 13)
-    pdf.cell(0, 8, "AI VEDIC ANALYSIS", ln=True)
-    pdf.set_font("Helvetica", "", 9)
-    pdf.set_text_color(232, 224, 208)
-    # Clean text for PDF
-    clean_text = ai_text.replace("*","").replace("#","").replace("–","-").replace("—","-")
-    pdf.multi_cell(0, 5, clean_text[:2000])
+    # Rahu Kalam box
+    pdf.set_fill_color(255, 235, 235)
+    pdf.set_text_color(*RED_DARK)
+    pdf.set_font("Helvetica", "B", 9)
+    pdf.cell(0, 7, f"  RAHU KALAM (AVOID NEW POSITIONS): {rk[0]} - {rk[1]}", ln=True, fill=True)
+    pdf.ln(1)
+
+    # Abhijit box
+    pdf.set_fill_color(235, 255, 240)
+    pdf.set_text_color(*GREEN_DARK)
+    pdf.set_font("Helvetica", "B", 9)
+    pdf.cell(0, 7, f"  ABHIJIT MUHURTA (MOST AUSPICIOUS): {abh[0]} - {abh[1]}", ln=True, fill=True)
 
     pdf.ln(5)
-    pdf.set_text_color(138, 128, 144)
-    pdf.set_font("Helvetica", "I", 8)
-    pdf.multi_cell(0, 4, "DISCLAIMER: This report is for spiritual/entertainment guidance only. It is NOT SEBI-registered investment advice. Always consult a certified financial advisor before making investment decisions. Past astrological alignments do not guarantee future market performance.")
 
-    # Return as bytes
+    # ── SECTION 6: AI Analysis ──
+    section_heading("AI VEDIC ANALYSIS")
+
+    clean_text = (ai_text
+                  .replace("*", "")
+                  .replace("#", "")
+                  .replace("\u2013", "-")
+                  .replace("\u2014", "-")
+                  .replace("\u2018", "'")
+                  .replace("\u2019", "'")
+                  .replace("\u201c", '"')
+                  .replace("\u201d", '"'))
+
+    pdf.set_font("Helvetica", "", 9)
+    pdf.set_text_color(*BLACK)
+    # Split into paragraphs for better formatting
+    paragraphs = [p.strip() for p in clean_text.split('\n') if p.strip()]
+    for para in paragraphs:
+        try:
+            pdf.multi_cell(0, 5, para)
+            pdf.ln(2)
+        except Exception:
+            pass
+
+    pdf.ln(4)
+
+    # ── Footer disclaimer ──
+    pdf.set_draw_color(*GOLD_LINE)
+    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
+    pdf.ln(3)
+    pdf.set_fill_color(255, 248, 230)
+    pdf.set_text_color(120, 60, 20)
+    pdf.set_font("Helvetica", "I", 7.5)
+    pdf.multi_cell(0, 4,
+        "DISCLAIMER: This report is for spiritual and cultural guidance only, based on Vedic astrology traditions. "
+        "It is NOT SEBI-registered investment advice. The creators of VedicTrade are not responsible for any financial "
+        "decisions made based on this report. Always consult a SEBI-registered financial advisor before investing. "
+        "Past astrological alignments do not guarantee future market performance.",
+        fill=True
+    )
+
     return bytes(pdf.output())
 
 def get_pdf_download_link(pdf_bytes, filename="VedicTrade_Report.pdf"):
