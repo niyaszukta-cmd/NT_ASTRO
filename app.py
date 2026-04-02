@@ -1846,7 +1846,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
         col1, col2 = st.columns(2)
         with col1:
             if not ai_for_pdf:
-                st.markdown('<span class="pill-warn">⚠ Generate AI analysis first for complete report</span>', unsafe_allow_html=True)
+                st.markdown('<span class="pill-warn">⚠ Generate analysis first for complete report</span>', unsafe_allow_html=True)
             else:
                 st.markdown('<span class="pill-good">✓ AI Analysis ready for PDF</span>', unsafe_allow_html=True)
 
