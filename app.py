@@ -9,6 +9,26 @@ from fpdf import FPDF
 import base64
 import io
 import os
+from PIL import Image
+
+# ─────────────────────────────────────────────
+#  LOGO HELPER
+# ─────────────────────────────────────────────
+LOGO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nyztrade_logo.jpg")
+
+def get_logo_base64(path=LOGO_PATH):
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except Exception:
+        return ""
+
+def get_logo_html(width="160px", style=""):
+    b64 = get_logo_base64()
+    if not b64:
+        return ""
+    return f'<img src="data:image/jpeg;base64,{b64}" width="{width}" style="border-radius:8px;{style}" alt="NyzTrade Logo"/>'
+
 
 # ─────────────────────────────────────────────
 #  PAGE CONFIG
@@ -671,20 +691,43 @@ def generate_pdf(user_data: dict, analysis_data: dict, ai_text: str):
     pdf.set_draw_color(*GOLD_LINE)
     pdf.rect(8, 8, 194, 281)
 
-    # ── Header banner (dark, like app) ──
+    # ── Header banner (dark, like app) — taller to fit logo ──
     pdf.set_fill_color(*BG_HEADER)
-    pdf.rect(8, 8, 194, 32, 'F')
+    pdf.rect(8, 8, 194, 38, 'F')
 
-    pdf.set_xy(10, 13)
+    # Logo on the RIGHT side of header
+    try:
+        logo_img_path = LOGO_PATH
+        # Place logo at top-right of banner
+        pdf.image(logo_img_path, x=148, y=10, w=50, h=0)  # h=0 = auto aspect
+    except Exception:
+        pass
+
+    # Title text on LEFT
+    pdf.set_xy(10, 12)
     pdf.set_text_color(201, 168, 76)
-    pdf.set_font("Helvetica", "B", 20)
-    pdf.cell(0, 10, "  VedicTrade - Astro Finance Report", ln=True, align="L")
+    pdf.set_font("Helvetica", "B", 18)
+    pdf.cell(130, 9, "  VedicTrade", ln=False, align="L")
+    pdf.ln()
 
+    pdf.set_xy(10, 22)
     pdf.set_font("Helvetica", "", 9)
     pdf.set_text_color(200, 190, 170)
-    pdf.cell(0, 6, f"  Generated: {datetime.date.today().strftime('%d %B %Y')}   |   Trader: {user_data.get('name','Trader')}   |   For spiritual guidance only", ln=True, align="L")
+    pdf.cell(130, 5, "  Astro Finance Report", ln=False, align="L")
+    pdf.ln()
 
-    pdf.ln(8)
+    pdf.set_xy(10, 29)
+    pdf.set_font("Helvetica", "", 7.5)
+    pdf.set_text_color(160, 150, 130)
+    pdf.cell(130, 5, f"  Powered by NyzTrade Financial Solutions", ln=False, align="L")
+    pdf.ln()
+
+    pdf.set_xy(10, 36)
+    pdf.set_font("Helvetica", "", 7.5)
+    pdf.set_text_color(140, 130, 110)
+    pdf.cell(130, 4, f"  {datetime.date.today().strftime('%d %B %Y')}  |  Trader: {user_data.get('name','Trader')}  |  Spiritual guidance only", ln=True, align="L")
+
+    pdf.ln(12)
 
     # ── SECTION 1: Birth Details ──
     section_heading("BIRTH DETAILS & PANCHANGA")
@@ -853,6 +896,30 @@ def generate_pdf(user_data: dict, analysis_data: dict, ai_text: str):
         "Past astrological alignments do not guarantee future market performance.",
         fill=True
     )
+
+    pdf.ln(5)
+
+    # ── PDF Footer — Powered by NyzTrade ──
+    pdf.set_draw_color(*GOLD_LINE)
+    pdf.line(15, pdf.get_y(), 195, pdf.get_y())
+    pdf.ln(3)
+
+    # Footer: logo left + text right
+    try:
+        footer_y = pdf.get_y()
+        pdf.image(LOGO_PATH, x=15, y=footer_y, w=35, h=0)
+        pdf.set_xy(55, footer_y + 2)
+    except Exception:
+        pdf.set_xy(15, pdf.get_y())
+
+    pdf.set_text_color(*GOLD_DARK)
+    pdf.set_font("Helvetica", "B", 8)
+    pdf.cell(0, 4, "Powered by NyzTrade Financial Solutions", ln=True, align="L")
+
+    pdf.set_xy(55, pdf.get_y())
+    pdf.set_text_color(*MID_GREY)
+    pdf.set_font("Helvetica", "", 7)
+    pdf.cell(0, 4, "nyztrade.com  |  VedicTrade Astro Dashboard  |  " + datetime.date.today().strftime("%d %B %Y"), ln=True, align="L")
 
     return bytes(pdf.output())
 
@@ -1122,13 +1189,57 @@ def show_landing():
 </div>
 """, unsafe_allow_html=True)
 
+    # Powered by logo at bottom of landing
+    logo_b64 = get_logo_base64()
+    if logo_b64:
+        st.markdown(f"""
+<div style="text-align:center;margin-top:1.5rem;padding:1rem;
+            background:linear-gradient(135deg,#0D0D20,#110B2D);
+            border:1px solid #2A1A0A;border-radius:12px;">
+  <div style="font-size:0.65rem;color:#8A8090;letter-spacing:3px;
+              font-family:'Cinzel',serif;margin-bottom:0.6rem;">
+    POWERED BY
+  </div>
+  <img src="data:image/jpeg;base64,{logo_b64}" width="220"
+       style="border-radius:10px;box-shadow:0 4px 20px rgba(201,168,76,0.25);"
+       alt="NyzTrade Financial Solutions"/>
+  <div style="font-size:0.72rem;color:#8A8090;font-family:'Cinzel',serif;
+              margin-top:0.6rem;letter-spacing:1px;">
+    nyztrade.com · Financial Solutions
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
 # ─────────────────────────────────────────────
 #  SIDEBAR
 # ─────────────────────────────────────────────
 
 def sidebar():
     with st.sidebar:
-        st.markdown("""
+        # Logo
+        logo_b64 = get_logo_base64()
+        if logo_b64:
+            st.markdown(f"""
+<div style="text-align:center;padding:1rem 0 0.3rem;">
+  <div style="font-size:0.6rem;color:#8A8090;letter-spacing:3px;font-family:'Cinzel',serif;margin-bottom:0.4rem;">
+    POWERED BY
+  </div>
+  <img src="data:image/jpeg;base64,{logo_b64}" width="180"
+       style="border-radius:10px;box-shadow:0 4px 16px rgba(201,168,76,0.3);"
+       alt="NyzTrade Logo"/>
+  <div style="font-size:2rem;margin-top:0.6rem;background:linear-gradient(135deg,#8B6914,#C9A84C,#E8C97A);
+              -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+              background-clip:text;font-family:'Cinzel Decorative',serif;font-weight:900;">
+    🔱 VedicTrade
+  </div>
+  <div style="font-size:0.65rem;color:#8A8090;letter-spacing:3px;font-family:'Cinzel',serif;">
+    ASTRO FINANCE DASHBOARD
+  </div>
+</div>
+<div class="gold-divider"></div>
+""", unsafe_allow_html=True)
+        else:
+            st.markdown("""
 <div style="text-align:center;padding:1rem 0 0.5rem;">
   <div style="font-size:2.5rem;background:linear-gradient(135deg,#8B6914,#C9A84C,#E8C97A);
               -webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -1213,6 +1324,9 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
     user_data = {"name": name, "dob": str(dob), "nakshatra": nakshatra}
 
     # ── Hero strip ──
+    _logo_b64 = get_logo_base64()
+    _logo_tag  = f'<img src="data:image/jpeg;base64,{_logo_b64}" height="38" style="border-radius:6px;vertical-align:middle;" alt="NyzTrade"/>' if _logo_b64 else ""
+    _powered   = f'<span style="font-size:0.6rem;color:#8A8090;font-family:Cinzel,serif;letter-spacing:2px;vertical-align:middle;margin-right:0.4rem;">POWERED BY</span>{_logo_tag}' if _logo_tag else ""
     st.markdown(f"""
 <div style="background:linear-gradient(135deg,#0D0D20,#160B2E);
             border:1px solid #3A2A0A;border-radius:12px;
@@ -1228,10 +1342,13 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
       {name.upper() if name else 'TRADER'} · {today.strftime('%d %B %Y')}
     </div>
   </div>
-  <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
-    <span class="pill-neut">🌙 {today_nak}</span>
-    <span class="pill-neut">📅 {tithi} {paksha}</span>
-    <span class="pill-neut">⭐ {vara.split('(')[0].strip()}</span>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <span class="pill-neut">🌙 {today_nak}</span>
+      <span class="pill-neut">📅 {tithi} {paksha}</span>
+      <span class="pill-neut">⭐ {vara.split("(")[0].strip()}</span>
+    </div>
+    <div style="display:flex;align-items:center;">{_powered}</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
