@@ -426,6 +426,12 @@ def lucky_sectors(mahadasha_lord, antardasha_lord):
     s1 = SECTOR_PLANET.get(mahadasha_lord, [])
     s2 = SECTOR_PLANET.get(antardasha_lord, [])
     combined = list(dict.fromkeys(s1 + s2))
+    fallback = ["Banking","IT","FMCG","Metals","Auto","Energy"]
+    for f in fallback:
+        if f not in combined:
+            combined.append(f)
+        if len(combined) >= 6:
+            break
     return combined[:6]
 
 def wealth_score(dob: datetime.date, birth_nak: str):
@@ -538,6 +544,14 @@ def wealth_gauge(score):
     )
     return fig
 
+def hex_to_rgba(hex_color, alpha=0.2):
+    """Convert hex color to rgba string for Plotly"""
+    hex_color = hex_color.lstrip('#')
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha})"
+
 def sector_radar(sectors, lord):
     color_map = {
         "Sun":"#FF6B35","Moon":"#C0C0FF","Mars":"#FF4444",
@@ -545,15 +559,21 @@ def sector_radar(sectors, lord):
         "Saturn":"#8888AA","Rahu":"#8B5CF6","Ketu":"#8B6914"
     }
     c = color_map.get(lord,"#C9A84C")
+    # Ensure we have enough sectors
+    if not sectors:
+        sectors = ["Banking","IT","Metals","FMCG","Energy","Auto"]
     vals = [85,70,60,75,55,80][:len(sectors)]
     while len(vals)<len(sectors): vals.append(50)
+    # Close the polygon
+    theta = sectors + [sectors[0]]
+    r_vals = vals + [vals[0]]
     fig = go.Figure(go.Scatterpolar(
-        r=vals + [vals[0]],
-        theta=sectors + [sectors[0]],
+        r=r_vals,
+        theta=theta,
         fill='toself',
-        fillcolor=c+"33",
+        fillcolor=hex_to_rgba(c, 0.2),
         line=dict(color=c, width=2),
-        marker=dict(color=c,size=6)
+        marker=dict(color=c, size=6)
     ))
     fig.update_layout(
         polar=dict(
