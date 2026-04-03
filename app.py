@@ -104,6 +104,17 @@ UI = {
             "decisions made based on this report. Always consult a SEBI-registered financial advisor before investing. "
             "Past astrological alignments do not guarantee future market performance."
         ),
+        "tab_western": "🌍 Western Astrology",
+        "tab_global": "📈 Global Markets",
+        "western_head": "🌍 Western Financial Astrology",
+        "global_head": "📈 Global Markets — Vedic Analysis",
+        "mercury_retro": "☿ Mercury Retrograde Tracker",
+        "lunar_cycle": "🌙 Lunar Trading Cycle",
+        "planetary_ingress": "🪐 Planetary Ingress Calendar",
+        "eclipse_cal": "🌑 Eclipse Calendar",
+        "western_profile": "♈ Your Western Trading Profile",
+        "market_selector": "🌐 Select Market",
+        "global_analysis_btn": "🔮 Generate Global Market Analysis",
         "lang_instruction": "Respond in clear, simple English.",
     },
 
@@ -179,6 +190,17 @@ UI = {
             "നിരാകരണം: ഈ റിപ്പോർട്ട് വൈദിക ജ്യോതിഷ പാരമ്പര്യത്തെ അടിസ്ഥാനമാക്കിയുള്ള ആത്മീയ മാർഗ്ഗദർശനം മാത്രമാണ്. "
             "ഇത് SEBI അംഗീകൃത നിക്ഷേപ ഉപദേശമല്ല. നിക്ഷേപ തീരുമാനങ്ങൾ എടുക്കുന്നതിന് മുൻപ് SEBI-രജിസ്റ്റേർഡ് ധനകാര്യ ഉപദേഷ്ടാവിനെ സമീപിക്കുക."
         ),
+        "tab_western": "🌍 പാശ്ചാത്യ ജ്യോതിഷം",
+        "tab_global": "📈 ആഗോള മാർക്കറ്റുകൾ",
+        "western_head": "🌍 പാശ്ചാത്യ ധനകാര്യ ജ്യോതിഷം",
+        "global_head": "📈 ആഗോള മാർക്കറ്റുകൾ — വൈദിക വിശകലനം",
+        "mercury_retro": "☿ ബുധൻ വക്രഗതി ട്രാക്കർ",
+        "lunar_cycle": "🌙 ചാന്ദ്ര ട്രേഡിംഗ് ചക്രം",
+        "planetary_ingress": "🪐 ഗ്രഹ പ്രവേശ കലണ്ടർ",
+        "eclipse_cal": "🌑 ഗ്രഹണ കലണ്ടർ",
+        "western_profile": "♈ നിങ്ങളുടെ പാശ്ചാത്യ ട്രേഡിംഗ് പ്രൊഫൈൽ",
+        "market_selector": "🌐 മാർക്കറ്റ് തിരഞ്ഞെടുക്കൂ",
+        "global_analysis_btn": "🔮 ആഗോള മാർക്കറ്റ് വിശകലനം",
         "lang_instruction": "ദയവായി ലളിതമായ മലയാളത്തിൽ ഉത്തരം നൽകുക. ഇംഗ്ലീഷ് പദങ്ങൾ ആവശ്യമെങ്കിൽ മാത്രം ഉപയോഗിക്കുക.",
     },
 
@@ -1180,18 +1202,9 @@ def get_pdf_download_link(pdf_bytes, filename="VedicTrade_Report.pdf"):
 #  GROQ AI
 # ─────────────────────────────────────────────
 
-def get_groq_analysis(user_data: dict, analysis_data: dict, question: str = None) -> str:
-    # Read from Streamlit secrets (secrets.toml) — never exposed to users
-    try:
-        api_key = st.secrets["GROQ_API_KEY"]
-    except Exception:
-        return "⚠️ GROQ_API_KEY not found in secrets.toml. Please add it to your Streamlit secrets."
-    if not api_key:
-        return "⚠️ GROQ_API_KEY is empty in secrets.toml."
-    try:
-        client = Groq(api_key=api_key)
-        context = f"""
-You are VedicAI, an expert in Vedic astrology applied to Indian stock markets.
+def _build_context(user_data: dict, analysis_data: dict) -> str:
+    """Build the user context string for Groq prompts"""
+    return f"""You are VedicAI, an expert in Vedic astrology applied to global financial markets.
 Provide spiritual guidance on trading timing and wealth building.
 Always remind users this is NOT financial advice.
 
@@ -1205,26 +1218,266 @@ User Profile:
 - Wealth Score: {analysis_data.get('wealth_score',0)}/100
 - Trading Strength This Month: {analysis_data.get('trade_strength','')}
 - Favourable Sectors: {', '.join(analysis_data.get('sectors',[]))}
-- Today's Nakshatra: {analysis_data.get('today_nak','')}
-- Today's Tithi: {analysis_data.get('tithi','')} {analysis_data.get('paksha','')}
-- Rahu Kalam Today: {analysis_data.get('rahu_kalam',('',''))[0]} to {analysis_data.get('rahu_kalam',('',''))[1]}
+- Today Nakshatra: {analysis_data.get('today_nak','')}
+- Today Tithi: {analysis_data.get('tithi','')} {analysis_data.get('paksha','')}
+- Rahu Kalam: {analysis_data.get('rahu_kalam',('',''))[0]} to {analysis_data.get('rahu_kalam',('',''))[1]}
 - Abhijit Muhurta: {analysis_data.get('abhijit',('',''))[0]} to {analysis_data.get('abhijit',('',''))[1]}
-"""
-        lang_instruction = UI.get(st.session_state.get("language","English"), UI["English"]).get("lang_instruction","Respond in English.")
-        if question:
-            prompt = f"{context}\n\n{lang_instruction}\n\nUser Question: {question}\n\nProvide a complete, thoughtful Vedic astrology based response about trading/investments. Always write complete sentences — never leave a sentence unfinished. Be practical and thorough. Do NOT cut off mid-sentence."
-        else:
-            prompt = f"{context}\n\n{lang_instruction}\n\nGenerate a comprehensive Vedic trading analysis for today. Include:\n1. Overall energy for trading today based on Panchanga\n2. Dasha analysis and what it means for wealth\n3. Best time windows for trading today\n4. Sectors to focus on\n5. One specific Vedic mantra or practice for financial prosperity\n\nAlways write COMPLETE sentences and paragraphs — never stop mid-sentence. Finish every point fully before ending. Be insightful and practical."
+- Market Mode: {analysis_data.get('market_mode','Indian (Nifty/BankNifty)')}"""
 
-        resp = client.chat.completions.create(
+
+def _call_groq(prompt: str) -> str:
+    """Call Groq API with retry logic and sentence-completion guarantee."""
+    try:
+        api_key = st.secrets["GROQ_API_KEY"]
+    except Exception:
+        return "⚠️ GROQ_API_KEY not found in secrets.toml. Please add it to your Streamlit secrets."
+    if not api_key:
+        return "⚠️ GROQ_API_KEY is empty in secrets.toml."
+    try:
+        client = Groq(api_key=api_key)
+        # Use a high max_tokens to avoid cuts.
+        # Malayalam/Hindi need ~3x tokens vs English per word.
+        response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=[{"role":"user","content":prompt}],
-            max_tokens=1500,  # Increased for Malayalam/Hindi which use more tokens per character
-            temperature=0.7
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=2000,
+            temperature=0.7,
         )
-        return resp.choices[0].message.content
+        result = response.choices[0].message.content or ""
+        finish = response.choices[0].finish_reason
+
+        # If cut mid-sentence, ask the model to complete it
+        if finish == "length" and result and not result.rstrip().endswith((".", "!", "?", "।", "।", "ം", "ഃ")):
+            continuation_prompt = (
+                f"The following text was cut off mid-sentence. "
+                f"Continue and complete ONLY the unfinished last sentence, "
+                f"then stop. Do not repeat any prior text.\n\n"
+                f"Cut text ending: ...{result[-300:]}"
+            )
+            cont = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "user", "content": continuation_prompt}],
+                max_tokens=300,
+                temperature=0.3,
+            )
+            extra = cont.choices[0].message.content or ""
+            result = result.rstrip() + " " + extra.strip()
+        return result
     except Exception as e:
         return f"⚠️ AI Error: {str(e)}"
+
+
+def get_groq_analysis(user_data: dict, analysis_data: dict, question: str = None) -> str:
+    """Main AI analysis entry point — Vedic mode."""
+    lang_instr = UI.get(st.session_state.get("language", "English"), UI["English"]).get(
+        "lang_instruction", "Respond in English."
+    )
+    context = _build_context(user_data, analysis_data)
+    if question:
+        prompt = (
+            f"{context}\n\n{lang_instr}\n\n"
+            f"User Question: {question}\n\n"
+            f"Give a complete, practical Vedic astrology response about trading/investments. "
+            f"Every sentence must be finished. Never stop mid-sentence."
+        )
+    else:
+        prompt = (
+            f"{context}\n\n{lang_instr}\n\n"
+            f"Generate a comprehensive Vedic trading analysis for today covering:\n"
+            f"1. Overall energy based on today's Panchanga\n"
+            f"2. What the current Dasha means for wealth\n"
+            f"3. Best time windows for trading today\n"
+            f"4. Top sectors to focus on\n"
+            f"5. One Vedic mantra or practice for financial prosperity\n\n"
+            f"Write every sentence completely. Never stop mid-sentence. Be insightful and practical."
+        )
+    return _call_groq(prompt)
+
+
+# ─────────────────────────────────────────────
+#  WESTERN ASTROLOGY HELPERS
+# ─────────────────────────────────────────────
+
+# Sun signs and trading profiles
+SUN_SIGNS = [
+    ("Aries",       (3,21),(4,19),  "♈", "Mars",   "Bold, impulsive trader. Best at breakouts & momentum."),
+    ("Taurus",      (4,20),(5,20),  "♉", "Venus",  "Patient investor. Prefers value stocks & gold."),
+    ("Gemini",      (5,21),(6,20),  "♊", "Mercury","Information-driven. Good at news trading & tech."),
+    ("Cancer",      (6,21),(7,22),  "♋", "Moon",   "Intuitive. Trades FMCG, real estate & consumer."),
+    ("Leo",         (7,23),(8,22),  "♌", "Sun",    "Confident & dramatic. Risk-taker. Loves big bets."),
+    ("Virgo",       (8,23),(9,22),  "♍", "Mercury","Analytical & methodical. Perfect for systematic trading."),
+    ("Libra",       (9,23),(10,22), "♎", "Venus",  "Balanced. Good at pair trades & sector rotation."),
+    ("Scorpio",     (10,23),(11,21),"♏", "Mars",   "Deep researcher. Loves hidden gems & contrarian plays."),
+    ("Sagittarius", (11,22),(12,21),"♐", "Jupiter","Big picture thinker. Global macro & index trader."),
+    ("Capricorn",   (12,22),(1,19), "♑", "Saturn", "Disciplined. Long-term positions. Loves blue chips."),
+    ("Aquarius",    (1,20),(2,18),  "♒", "Saturn", "Innovative. Crypto, tech & disruptive sector plays."),
+    ("Pisces",      (2,19),(3,20),  "♓", "Jupiter","Intuitive & spiritual. Sector: pharma, spirituality."),
+]
+
+def get_sun_sign(dob: datetime.date) -> tuple:
+    m, d = dob.month, dob.day
+    for name, start, end, symbol, ruler, style in SUN_SIGNS:
+        sm, sd = start
+        em, ed = end
+        if sm <= em:
+            if (m == sm and d >= sd) or (m == em and d <= ed) or (sm < m < em):
+                return name, symbol, ruler, style
+        else:  # wraps year (Capricorn)
+            if (m == sm and d >= sd) or (m == em and d <= ed) or m > sm or m < em:
+                return name, symbol, ruler, style
+    return "Aries", "♈", "Mars", "Bold trader."
+
+# Mercury Retrograde periods 2025-2026
+MERCURY_RETRO = [
+    (datetime.date(2025,1,25), datetime.date(2025,2,15), "Capricorn→Aquarius", "Finance, banking, government stocks volatile"),
+    (datetime.date(2025,5,29), datetime.date(2025,6,22), "Gemini",             "Tech, telecom, media — watch for glitches"),
+    (datetime.date(2025,9,22), datetime.date(2025,10,16),"Libra→Virgo",        "Financial agreements, partnerships at risk"),
+    (datetime.date(2026,1,13), datetime.date(2026,2,3),  "Aquarius→Capricorn", "Crypto, tech innovation — increased volatility"),
+    (datetime.date(2026,5,10), datetime.date(2026,6,3),  "Gemini",             "Communication stocks, IT sector choppy"),
+    (datetime.date(2026,9,6),  datetime.date(2026,9,29), "Libra",              "Luxury, relationship stocks reassess"),
+]
+
+# Lunar phases (approximate new/full moons 2026)
+LUNAR_EVENTS_2026 = [
+    (datetime.date(2026,1,3),  "New Moon", "Capricorn", "Good for long-term position entry"),
+    (datetime.date(2026,1,18), "Full Moon","Cancer",    "Emotional peak — avoid impulsive trades"),
+    (datetime.date(2026,2,1),  "New Moon", "Aquarius",  "Innovation sector entry point"),
+    (datetime.date(2026,2,17), "Full Moon","Leo",       "High energy — momentum stocks peak"),
+    (datetime.date(2026,3,3),  "New Moon", "Pisces",    "Pharma, spirituality sector focus"),
+    (datetime.date(2026,3,18), "Full Moon","Virgo",     "Analytical review — check fundamentals"),
+    (datetime.date(2026,4,1),  "New Moon", "Aries",     "Fresh starts — breakout opportunities"),
+    (datetime.date(2026,4,17), "Full Moon","Libra",     "Balance portfolios — rebalance day"),
+    (datetime.date(2026,5,1),  "New Moon", "Taurus",    "Gold & real estate entry signals"),
+    (datetime.date(2026,5,16), "Full Moon","Scorpio",   "Deep market research — hidden moves"),
+    (datetime.date(2026,6,29), "New Moon", "Cancer",    "FMCG & consumer goods focus"),
+    (datetime.date(2026,7,15), "Full Moon","Capricorn", "Blue chip review — long term holds"),
+]
+
+# Planetary ingresses (major sign changes) 2025-2026
+PLANETARY_INGRESS = [
+    ("Jupiter",  "Gemini → Cancer",    datetime.date(2025,6,9),   "Banking, FMCG, Real Estate boost"),
+    ("Saturn",   "Pisces → Aries",     datetime.date(2025,5,25),  "Defence, metals discipline phase"),
+    ("Jupiter",  "Cancer → Leo",       datetime.date(2026,6,30),  "Luxury, entertainment surge"),
+    ("Saturn",   "Aries → Taurus",     datetime.date(2027,3,25),  "Gold, agriculture long cycle"),
+    ("Uranus",   "Taurus → Gemini",    datetime.date(2026,7,7),   "Tech revolution — AI, communication"),
+    ("Neptune",  "Pisces → Aries",     datetime.date(2025,3,30),  "New spiritual/energy sectors"),
+]
+
+# Eclipse calendar 2026
+ECLIPSES_2026 = [
+    (datetime.date(2026,2,17), "Annular Solar Eclipse",  "Virgo",     "Market correction risk ±2 weeks"),
+    (datetime.date(2026,3,3),  "Penumbral Lunar Eclipse","Pisces",    "Pharma, oil sector volatile"),
+    (datetime.date(2026,8,12), "Total Solar Eclipse",    "Leo",       "Major trend reversal signal"),
+    (datetime.date(2026,8,28), "Partial Lunar Eclipse",  "Aquarius",  "Crypto, tech reassessment"),
+]
+
+# Western sector-planet mapping (different from Vedic)
+WESTERN_PLANET_SECTOR = {
+    "Sun":     ["Energy", "Government", "Gold", "Healthcare"],
+    "Moon":    ["FMCG", "Real Estate", "Food", "Retail"],
+    "Mercury": ["Technology", "Telecom", "Media", "Transport"],
+    "Venus":   ["Luxury", "Beauty", "Finance", "Entertainment"],
+    "Mars":    ["Defence", "Engineering", "Steel", "Sports"],
+    "Jupiter": ["Banking", "Insurance", "Education", "Law"],
+    "Saturn":  ["Mining", "Infrastructure", "Oil & Gas", "Agriculture"],
+    "Uranus":  ["Technology", "Innovation", "Crypto", "Aerospace"],
+    "Neptune": ["Pharma", "Oil", "Music", "Spirituality"],
+    "Pluto":   ["Nuclear", "Transformation", "Deep Tech", "Biotech"],
+}
+
+def get_mercury_retro_status(today=None) -> tuple:
+    """Returns (is_retro, period_info, days_to_next)"""
+    if today is None:
+        today = datetime.date.today()
+    for start, end, sign, effect in MERCURY_RETRO:
+        if start <= today <= end:
+            days_left = (end - today).days
+            return True, f"In {sign} until {end.strftime('%b %d')}", days_left, effect
+    # Find next retrograde
+    for start, end, sign, effect in MERCURY_RETRO:
+        if start > today:
+            days_to = (start - today).days
+            return False, f"Next: {start.strftime('%b %d')} in {sign}", days_to, effect
+    return False, "No retrograde soon", 999, ""
+
+def get_moon_phase(today=None) -> tuple:
+    """Approximate moon phase"""
+    if today is None:
+        today = datetime.date.today()
+    ref = datetime.date(2000,1,6)  # known new moon
+    days = (today - ref).days
+    cycle = days % 29.53
+    if cycle < 1.5:   return "🌑 New Moon", "Fresh start — new positions", "New"
+    if cycle < 7.5:   return "🌒 Waxing Crescent", "Building momentum — add to longs", "Waxing"
+    if cycle < 8.5:   return "🌓 First Quarter", "Decision point — review entries", "Quarter"
+    if cycle < 14.5:  return "🌔 Waxing Gibbous", "Strong momentum — hold longs", "Waxing"
+    if cycle < 15.5:  return "🌕 Full Moon", "Peak energy — take profits, high volatility", "Full"
+    if cycle < 22.5:  return "🌖 Waning Gibbous", "Slowing down — reduce exposure", "Waning"
+    if cycle < 23.5:  return "🌗 Last Quarter", "Reassess — cut losses if needed", "Quarter"
+    return "🌘 Waning Crescent", "Rest phase — avoid new positions", "Waning"
+
+def get_upcoming_lunar(today=None, n=3):
+    if today is None:
+        today = datetime.date.today()
+    upcoming = [e for e in LUNAR_EVENTS_2026 if e[0] >= today]
+    return upcoming[:n]
+
+def get_upcoming_ingress(today=None, n=4):
+    if today is None:
+        today = datetime.date.today()
+    upcoming = [e for e in PLANETARY_INGRESS if e[2] >= today]
+    return upcoming[:n]
+
+def get_upcoming_eclipses(today=None):
+    if today is None:
+        today = datetime.date.today()
+    return [e for e in ECLIPSES_2026 if e[0] >= today][:3]
+
+# Global markets data
+GLOBAL_MARKETS = {
+    "🇮🇳 India — Nifty / BankNifty":     {"symbol":"^NSEI",   "tz":"Asia/Kolkata",   "open":"09:15","close":"15:30","currency":"₹","ruling_planet":"Mars/Mercury"},
+    "🇺🇸 USA — S&P 500 / NASDAQ":         {"symbol":"^GSPC",   "tz":"America/New_York","open":"09:30","close":"16:00","currency":"$","ruling_planet":"Jupiter/Mercury"},
+    "🇬🇧 UK — FTSE 100":                  {"symbol":"^FTSE",   "tz":"Europe/London",  "open":"08:00","close":"16:30","currency":"£","ruling_planet":"Saturn/Venus"},
+    "🇩🇪 Germany — DAX":                  {"symbol":"^GDAXI",  "tz":"Europe/Berlin",  "open":"09:00","close":"17:30","currency":"€","ruling_planet":"Mercury/Saturn"},
+    "🇯🇵 Japan — Nikkei 225":             {"symbol":"^N225",   "tz":"Asia/Tokyo",     "open":"09:00","close":"15:30","currency":"¥","ruling_planet":"Sun/Mercury"},
+    "🇸🇬 Singapore — STI":                {"symbol":"^STI",    "tz":"Asia/Singapore", "open":"09:00","close":"17:00","currency":"S$","ruling_planet":"Jupiter/Venus"},
+    "₿ Crypto — Bitcoin / Ethereum":      {"symbol":"BTC-USD", "tz":"UTC",            "open":"00:00","close":"24:00","currency":"$","ruling_planet":"Uranus/Neptune"},
+    "🥇 Commodities — Gold / Silver":     {"symbol":"GC=F",    "tz":"America/New_York","open":"09:00","close":"17:00","currency":"$","ruling_planet":"Sun/Moon"},
+}
+
+def get_global_groq_analysis(user_data, analysis_data, market_name, market_info, question=None):
+    """AI analysis for global markets"""
+    lang_instr = UI.get(st.session_state.get("language","English"), UI["English"]).get(
+        "lang_instruction", "Respond in English."
+    )
+    moon_phase, moon_advice, _ = get_moon_phase()
+    is_retro, retro_info, retro_days, retro_effect = get_mercury_retro_status()
+
+    context = f"""You are VedicAI, combining Vedic and Western astrology for global financial markets.
+Market Focus: {market_name}
+Market Currency: {market_info['currency']}
+Market Ruling Planet: {market_info['ruling_planet']}
+Current Moon Phase: {moon_phase} — {moon_advice}
+Mercury Status: {"RETROGRADE ⚠️" if is_retro else "Direct ✅"} — {retro_info}
+User Nakshatra: {user_data.get('nakshatra','')}
+User Mahadasha: {analysis_data.get('mahadasha','')}
+User Antardasha: {analysis_data.get('antardasha','')}
+Today Tithi: {analysis_data.get('tithi','')} {analysis_data.get('paksha','')}"""
+
+    if question:
+        prompt = f"{context}\n\n{lang_instr}\n\nUser Question about {market_name}: {question}\n\nGive a complete analysis combining Vedic and Western astrology for this market. Never cut off mid-sentence."
+    else:
+        prompt = (
+            f"{context}\n\n{lang_instr}\n\n"
+            f"Generate a complete Vedic + Western astrology analysis for {market_name} today:\n"
+            f"1. What does the Moon phase mean for this market right now\n"
+            f"2. Mercury retrograde impact (if applicable)\n"
+            f"3. Planetary alignment effect on {market_name} sectors\n"
+            f"4. Best entry/exit timing windows today\n"
+            f"5. Key sectors to watch this week\n\n"
+            f"Write every sentence completely. Never stop mid-sentence."
+        )
+    return _call_groq(prompt)
 
 # ─────────────────────────────────────────────
 #  LANDING PAGE
@@ -1623,13 +1876,15 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 """, unsafe_allow_html=True)
 
     # ── TABS ──
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
         T("tab_muhurta"),
         T("tab_dasha"),
         T("tab_sector"),
         T("tab_ai"),
         T("tab_pdf"),
         T("tab_metals"),
+        T("tab_western"),
+        T("tab_global"),
     ])
 
     # ─── TAB 1: MUHURTA ───
@@ -2126,6 +2381,284 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
   Prices of metals fluctuate and past performance does not guarantee returns.
 </div>""", unsafe_allow_html=True)
 
+
+
+    # ─── TAB 7: WESTERN ASTROLOGY ───
+    with tab7:
+        st.markdown(f'<div class="sec-head">{T("western_head")}</div>', unsafe_allow_html=True)
+
+        today = datetime.date.today()
+        sign_name, sign_sym, sign_ruler, sign_style = get_sun_sign(dob)
+        is_retro, retro_info, retro_days, retro_effect = get_mercury_retro_status(today)
+        moon_emoji, moon_advice, moon_phase = get_moon_phase(today)
+        upcoming_lunar  = get_upcoming_lunar(today)
+        upcoming_ingress = get_upcoming_ingress(today)
+        upcoming_eclipses = get_upcoming_eclipses(today)
+
+        # ── Row 1: Mercury + Moon ──
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            retro_color = "#E74C3C" if is_retro else "#27AE60"
+            retro_label = "RETROGRADE ⚠️" if is_retro else "DIRECT ✅"
+            st.markdown(f"""
+<div class="astro-card" style="border-top:3px solid {retro_color};">
+  <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.5rem;">{T("mercury_retro")}</div>
+  <div style="font-size:1.3rem;color:{retro_color};font-family:'Cinzel',serif;font-weight:700;">☿ {retro_label}</div>
+  <div style="font-size:0.82rem;color:#E8E0D0;margin-top:0.5rem;">{retro_info}</div>
+  <div style="font-size:0.75rem;color:#8A8090;margin-top:0.4rem;">{retro_effect}</div>
+  <div style="margin-top:0.5rem;font-size:0.72rem;color:{retro_color};">
+    {"⚠️ Avoid signing contracts, major trades & tech buys during retrograde" if is_retro else f"✅ {retro_days} days until next retrograde"}
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        with col2:
+            moon_color = "#C9A84C" if "Full" in moon_phase else "#8B5CF6" if "New" in moon_phase else "#3498DB"
+            st.markdown(f"""
+<div class="astro-card" style="border-top:3px solid {moon_color};">
+  <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.5rem;">{T("lunar_cycle")}</div>
+  <div style="font-size:1.3rem;color:{moon_color};font-family:'Cinzel',serif;">{moon_emoji}</div>
+  <div style="font-size:0.82rem;color:#E8E0D0;margin-top:0.4rem;">{moon_advice}</div>
+  <div style="font-size:0.72rem;color:#8A8090;margin-top:0.3rem;">Moon influences FMCG, Real Estate & Consumer sentiment</div>
+</div>""", unsafe_allow_html=True)
+
+        with col3:
+            st.markdown(f"""
+<div class="astro-card" style="border-top:3px solid #C9A84C;">
+  <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.5rem;">{T("western_profile")}</div>
+  <div style="font-size:1.6rem;color:#C9A84C;font-family:'Cinzel Decorative',serif;">{sign_sym} {sign_name}</div>
+  <div style="font-size:0.8rem;color:#E8E0D0;margin-top:0.4rem;">Ruling Planet: <span style="color:#C9A84C;">{sign_ruler}</span></div>
+  <div style="font-size:0.75rem;color:#8A8090;margin-top:0.3rem;">{sign_style}</div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Row 2: Upcoming Lunar Events + Ingresses ──
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown(f'<div class="sec-head">{T("lunar_cycle")} — Upcoming</div>', unsafe_allow_html=True)
+            for evt_date, evt_type, sign, advice in upcoming_lunar:
+                days_away = (evt_date - today).days
+                color = "#C9A84C" if "Full" in evt_type else "#8B5CF6"
+                icon = "🌕" if "Full" in evt_type else "🌑"
+                st.markdown(f"""
+<div style="background:linear-gradient(135deg,#13132A,#1A1A35);border:1px solid {color}44;
+            border-left:3px solid {color};border-radius:8px;padding:0.6rem 1rem;margin:0.3rem 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-family:'Cinzel',serif;font-size:0.85rem;color:{color};">{icon} {evt_type} in {sign}</span>
+    <span style="font-size:0.72rem;color:#8A8090;">{evt_date.strftime('%b %d')} · {days_away}d away</span>
+  </div>
+  <div style="font-size:0.75rem;color:#8A8090;margin-top:0.2rem;">{advice}</div>
+</div>""", unsafe_allow_html=True)
+
+        with col2:
+            st.markdown(f'<div class="sec-head">{T("planetary_ingress")}</div>', unsafe_allow_html=True)
+            for planet, transit, ing_date, effect in upcoming_ingress:
+                days_away = (ing_date - today).days
+                st.markdown(f"""
+<div style="background:linear-gradient(135deg,#13132A,#1A1A35);border:1px solid #3A2A5A;
+            border-left:3px solid #8B5CF6;border-radius:8px;padding:0.6rem 1rem;margin:0.3rem 0;">
+  <div style="display:flex;justify-content:space-between;">
+    <span style="font-family:'Cinzel',serif;font-size:0.85rem;color:#8B5CF6;">🪐 {planet}: {transit}</span>
+    <span style="font-size:0.72rem;color:#8A8090;">{ing_date.strftime('%b %d, %Y')}</span>
+  </div>
+  <div style="font-size:0.75rem;color:#8A8090;margin-top:0.2rem;">{effect}</div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Eclipse Calendar ──
+        st.markdown(f'<div class="sec-head">{T("eclipse_cal")}</div>', unsafe_allow_html=True)
+        if upcoming_eclipses:
+            ecl_cols = st.columns(len(upcoming_eclipses))
+            for i, (ecl_date, ecl_type, ecl_sign, ecl_effect) in enumerate(upcoming_eclipses):
+                days_away = (ecl_date - today).days
+                color = "#E74C3C" if "Solar" in ecl_type else "#8B5CF6"
+                icon = "🌑" if "Solar" in ecl_type else "🌕"
+                with ecl_cols[i]:
+                    st.markdown(f"""
+<div class="astro-card" style="border:1px solid {color};text-align:center;">
+  <div style="font-size:2rem;">{icon}</div>
+  <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:{color};margin:0.3rem 0;">{ecl_type}</div>
+  <div style="font-size:0.78rem;color:#E8E0D0;">in {ecl_sign}</div>
+  <div style="font-size:0.72rem;color:#8A8090;margin-top:0.3rem;">{ecl_date.strftime('%b %d, %Y')}</div>
+  <div style="font-size:0.72rem;color:#8A8090;">{days_away} days away</div>
+  <div style="font-size:0.72rem;color:{color};margin-top:0.4rem;">{ecl_effect}</div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Western Planet → Sector Map ──
+        st.markdown('<div class="sec-head">🪐 Western Planet → Sector Map</div>', unsafe_allow_html=True)
+        wcol1, wcol2 = st.columns(2)
+        planets_list = list(WESTERN_PLANET_SECTOR.items())
+        half = len(planets_list) // 2
+        for col, slice_ in [(wcol1, planets_list[:half]), (wcol2, planets_list[half:])]:
+            with col:
+                for planet, sectors in slice_:
+                    st.markdown(f"""
+<div style="font-size:0.8rem;margin:0.3rem 0;padding:0.3rem 0.5rem;
+            background:#13132A;border-radius:6px;">
+  <span style="color:#C9A84C;font-family:'Cinzel',serif;">{planet}:</span>
+  <span style="color:#8A8090;"> {', '.join(sectors)}</span>
+</div>""", unsafe_allow_html=True)
+
+    # ─── TAB 8: GLOBAL MARKETS ───
+    with tab8:
+        st.markdown(f'<div class="sec-head">{T("global_head")}</div>', unsafe_allow_html=True)
+
+        today = datetime.date.today()
+
+        # ── Market selector ──
+        st.markdown(f'<div class="sec-head" style="font-size:0.8rem;">{T("market_selector")}</div>', unsafe_allow_html=True)
+        selected_market = st.selectbox(
+            "", list(GLOBAL_MARKETS.keys()),
+            label_visibility="collapsed",
+            key="global_market_select"
+        )
+        minfo = GLOBAL_MARKETS[selected_market]
+
+        # ── Market info card ──
+        is_retro, retro_info, retro_days, retro_effect = get_mercury_retro_status(today)
+        moon_emoji, moon_advice, moon_phase_str = get_moon_phase(today)
+        retro_color = "#E74C3C" if is_retro else "#27AE60"
+
+        st.markdown(f"""
+<div class="astro-card" style="border-top:2px solid #C9A84C;">
+  <div style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
+    <div style="flex:1;min-width:160px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.7rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.3rem;">SELECTED MARKET</div>
+      <div style="font-size:1.1rem;color:#C9A84C;font-family:'Cinzel',serif;">{selected_market}</div>
+      <div style="font-size:0.78rem;color:#8A8090;margin-top:0.3rem;">
+        Currency: {minfo['currency']} · Hours: {minfo['open']}–{minfo['close']}
+      </div>
+    </div>
+    <div style="flex:1;min-width:130px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.7rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.3rem;">RULING PLANET</div>
+      <div style="font-size:1rem;color:#8B5CF6;font-family:'Cinzel',serif;">🪐 {minfo['ruling_planet']}</div>
+    </div>
+    <div style="flex:1;min-width:130px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.7rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.3rem;">MOON PHASE</div>
+      <div style="font-size:1rem;color:#C9A84C;">{moon_emoji}</div>
+      <div style="font-size:0.72rem;color:#8A8090;">{moon_advice}</div>
+    </div>
+    <div style="flex:1;min-width:130px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.7rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.3rem;">MERCURY</div>
+      <div style="font-size:0.88rem;color:{retro_color};font-family:'Cinzel',serif;">☿ {"RETROGRADE ⚠️" if is_retro else "DIRECT ✅"}</div>
+      <div style="font-size:0.7rem;color:#8A8090;">{retro_info}</div>
+    </div>
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Vedic timing for this market ──
+        st.markdown('<div class="sec-head">⏰ Auspicious Trading Windows for This Market</div>', unsafe_allow_html=True)
+
+        # Convert Choghadiya to market timezone context
+        market_tz_label = minfo.get('tz','UTC').replace('_',' ').replace('/',' / ')
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown(f"""
+<div class="astro-card" style="text-align:center;border:1px solid #27AE60;">
+  <div style="font-size:0.7rem;color:#8A8090;font-family:'Cinzel',serif;letter-spacing:1px;">BEST ENTRY WINDOW</div>
+  <div style="font-size:1rem;color:#2ECC71;font-family:'Cinzel',serif;margin-top:0.4rem;">🟢 {abh[0]} – {abh[1]} IST</div>
+  <div style="font-size:0.7rem;color:#8A8090;margin-top:0.2rem;">Abhijit Muhurta</div>
+  <div style="font-size:0.7rem;color:#8A8090;">({market_tz_label} — convert for your zone)</div>
+</div>""", unsafe_allow_html=True)
+        with col2:
+            st.markdown(f"""
+<div class="astro-card" style="text-align:center;border:1px solid #C0392B;">
+  <div style="font-size:0.7rem;color:#8A8090;font-family:'Cinzel',serif;letter-spacing:1px;">AVOID TRADING</div>
+  <div style="font-size:1rem;color:#E74C3C;font-family:'Cinzel',serif;margin-top:0.4rem;">🔴 {rk[0]} – {rk[1]} IST</div>
+  <div style="font-size:0.7rem;color:#8A8090;margin-top:0.2rem;">Rahu Kalam</div>
+  <div style="font-size:0.7rem;color:#8A8090;">({market_tz_label} — convert for your zone)</div>
+</div>""", unsafe_allow_html=True)
+        with col3:
+            retro_trade_advice = "⚠️ Reduce new entries during retrograde" if is_retro else "✅ Mercury direct — normal trading"
+            retro_trade_color = "#E67E22" if is_retro else "#27AE60"
+            st.markdown(f"""
+<div class="astro-card" style="text-align:center;border:1px solid {retro_trade_color};">
+  <div style="font-size:0.7rem;color:#8A8090;font-family:'Cinzel',serif;letter-spacing:1px;">MERCURY STATUS</div>
+  <div style="font-size:0.88rem;color:{retro_trade_color};font-family:'Cinzel',serif;margin-top:0.4rem;">{retro_trade_advice}</div>
+  <div style="font-size:0.7rem;color:#8A8090;margin-top:0.2rem;">{retro_info}</div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── All markets overview ──
+        st.markdown('<div class="sec-head">🌍 All Markets — Vedic Status Today</div>', unsafe_allow_html=True)
+        for mkt_name, mkt_info in GLOBAL_MARKETS.items():
+            ruling = mkt_info['ruling_planet'].split('/')[0].strip()
+            is_fav = ruling in [maha_lord, antar_lord]
+            border = "border:2px solid #C9A84C;" if is_fav else "border:1px solid #2A2A4A;"
+            star   = "⭐ " if is_fav else ""
+            st.markdown(f"""
+<div style="background:linear-gradient(135deg,#13132A,#1A1A35);{border}
+            border-radius:8px;padding:0.6rem 1rem;margin:0.3rem 0;
+            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+  <div>
+    <span style="font-family:'Cinzel',serif;font-size:0.85rem;color:#C9A84C;">{star}{mkt_name}</span>
+    <span style="font-size:0.72rem;color:#8A8090;margin-left:0.8rem;">Ruling: {mkt_info['ruling_planet']}</span>
+  </div>
+  <div style="display:flex;gap:0.6rem;align-items:center;">
+    <span style="font-size:0.72rem;color:#8A8090;">{mkt_info['currency']} · {mkt_info['open']}–{mkt_info['close']}</span>
+    {"<span style='background:#C9A84C;color:#0A0A0A;border-radius:4px;padding:0.1rem 0.5rem;font-size:0.68rem;font-family:Cinzel,serif;'>YOUR DASHA</span>" if is_fav else ""}
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── AI Global Analysis ──
+        st.markdown('<div class="sec-head">🤖 AI Global Market Analysis</div>', unsafe_allow_html=True)
+
+        if "global_ai" not in st.session_state:
+            st.session_state.global_ai = {}
+        if "global_chat" not in st.session_state:
+            st.session_state.global_chat = []
+
+        gcol1, gcol2 = st.columns(2)
+        with gcol1:
+            if st.button(T("global_analysis_btn"), use_container_width=True, key="global_ai_btn"):
+                with st.spinner(T("spinning")):
+                    result = get_global_groq_analysis(user_data, analysis_data, selected_market, minfo)
+                    st.session_state.global_ai[selected_market] = result
+        with gcol2:
+            if st.button("🔄 " + T("clear_chat"), use_container_width=True, key="global_clear_btn"):
+                st.session_state.global_ai = {}
+                st.session_state.global_chat = []
+
+        if selected_market in st.session_state.global_ai:
+            st.markdown(f'<div class="ai-box">🌍 <b style="color:#C9A84C;font-family:Cinzel,serif;">Global Market Analysis — {selected_market}</b><br/><br/>{st.session_state.global_ai[selected_market]}</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">💬 {T("ask_vedic")} — Global</div>', unsafe_allow_html=True)
+
+        for msg in st.session_state.global_chat:
+            rc = "#C9A84C" if msg["role"]=="assistant" else "#8B5CF6"
+            rl = T("vedic_bot") if msg["role"]=="assistant" else T("vedic_you")
+            st.markdown(f'<div class="ai-box" style="margin-bottom:0.6rem;border-left-color:{rc};"><b style="color:{rc};font-family:Cinzel,serif;">{rl}</b><br/>{msg["content"]}</div>', unsafe_allow_html=True)
+
+        gq_col, gbtn_col = st.columns([4,1])
+        with gq_col:
+            global_q = st.text_input("", placeholder=f"Ask about {selected_market}...", label_visibility="collapsed", key="global_q")
+        with gbtn_col:
+            if st.button(T("ask_btn"), use_container_width=True, key="global_ask_btn"):
+                if global_q:
+                    st.session_state.global_chat.append({"role":"user","content":global_q})
+                    with st.spinner(T("spinning")):
+                        ans = get_global_groq_analysis(user_data, analysis_data, selected_market, minfo, global_q)
+                    st.session_state.global_chat.append({"role":"assistant","content":ans})
+                    st.rerun()
+
+        st.markdown("""
+<div class="disclaimer-box">
+  ⚠️ Global market analysis combines Vedic and Western astrology for spiritual timing guidance only.
+  Not SEBI or any international regulatory body registered investment advice.
+  Always consult a licensed financial advisor for international market investments.
+</div>""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 #  MAIN
