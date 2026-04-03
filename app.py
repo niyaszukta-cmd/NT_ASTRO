@@ -1298,221 +1298,6 @@ def sidebar():
 """, unsafe_allow_html=True)
 
         return name, dob, nakshatra, sunrise, sunset, generate
-
-
-    # ─── TAB 6: METALS & BUYING ───
-    with tab6:
-        st.markdown('<div class="sec-head">🥇 Vedic Metals & Auspicious Buying Guide</div>', unsafe_allow_html=True)
-
-        # ── Intro card ──
-        st.markdown(f"""
-<div class="astro-card">
-  <div style="font-size:0.88rem;color:#E8E0D0;line-height:1.8;">
-    In Vedic tradition, each metal is governed by a planet. Buying metals on the <span style="color:#C9A84C;">day ruled by their governing planet</span>
-    during an auspicious Choghadiya window is believed to multiply prosperity.
-    Based on your <span style="color:#C9A84C;">{maha_lord} Mahadasha</span>, your most favoured metals are highlighted below.
-  </div>
-</div>""", unsafe_allow_html=True)
-
-        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-
-        # ── Metal data ──
-        metals = [
-            {
-                "name": "Gold",
-                "symbol": "🥇",
-                "planet": "Sun",
-                "best_day": "Sunday (Ravi Vara)",
-                "best_time": "Abhijit Muhurta / Amrit/Labh Choghadiya",
-                "avoid": "Rahu Kalam, Amavasya (New Moon)",
-                "best_tithi": "Akshaya Tritiya, Dhanteras, Purnima",
-                "purpose": "Wealth, authority, health, father's blessings",
-                "tips": "Buy gold in odd weight (e.g., 10g, 21g). Never gift empty wallets.",
-                "nse_symbol": "GOLDBEES / Sovereign Gold Bond",
-                "color": "#FFD700",
-                "bg": "#2A2000",
-            },
-            {
-                "name": "Silver",
-                "symbol": "🥈",
-                "planet": "Moon",
-                "best_day": "Monday (Soma Vara)",
-                "best_time": "Morning Amrit Choghadiya",
-                "avoid": "Rahu Kalam, Krishna Paksha Ashtami",
-                "best_tithi": "Purnima (Full Moon), Ekadashi, Chaturthi",
-                "purpose": "Peace, emotions, mother's blessings, fertility",
-                "tips": "Silver coins, idols of Lakshmi/Ganesha are best. Avoid broken/dented silver.",
-                "nse_symbol": "SILVERBEES / Silver ETF",
-                "color": "#C0C0C0",
-                "bg": "#1A1A2A",
-            },
-            {
-                "name": "Copper",
-                "symbol": "🔶",
-                "planet": "Venus / Mars",
-                "best_day": "Friday (Shukra Vara) or Tuesday (Mangala Vara)",
-                "best_time": "Labh or Shubh Choghadiya",
-                "avoid": "Rahu Kalam, Saturdays",
-                "best_tithi": "Navami, Tritiya",
-                "purpose": "Health, relationships, vitality, Mars energy",
-                "tips": "Copper water vessels (lota) and copper coins are traditional. Clean with lemon.",
-                "nse_symbol": "COPPERETF / Copper MCX Futures",
-                "color": "#B87333",
-                "bg": "#2A1A00",
-            },
-            {
-                "name": "Platinum",
-                "symbol": "⬜",
-                "planet": "Saturn / Venus",
-                "best_day": "Saturday (Shani Vara) or Friday",
-                "best_time": "Char or Labh Choghadiya",
-                "avoid": "Rahu Kalam, Ashtami",
-                "best_tithi": "Chaturdashi, Purnima",
-                "purpose": "Discipline, longevity, career stability",
-                "tips": "Newer metal in Vedic context — treat as Saturn metal. Best for long-term holding.",
-                "nse_symbol": "Platinum ETF / MCX Platinum",
-                "color": "#E5E4E2",
-                "bg": "#1A1A1A",
-            },
-            {
-                "name": "Lead / Iron",
-                "symbol": "⚙️",
-                "planet": "Saturn",
-                "best_day": "Saturday (Shani Vara)",
-                "best_time": "Afternoon Char Choghadiya",
-                "avoid": "Sunrise hour, Sundays",
-                "best_tithi": "Amavasya, Chaturdashi",
-                "purpose": "Protection, warding off negative energy, Saturn remedies",
-                "tips": "Iron horseshoe, iron ring on middle finger. Donate iron on Saturdays for Saturn relief.",
-                "nse_symbol": "STEELETF / Iron & Steel sector",
-                "color": "#708090",
-                "bg": "#111118",
-            },
-            {
-                "name": "Brass (Pital)",
-                "symbol": "🟡",
-                "planet": "Jupiter",
-                "best_day": "Thursday (Guru Vara)",
-                "best_time": "Morning Amrit or Shubh Choghadiya",
-                "avoid": "Rahu Kalam, Amavasya",
-                "best_tithi": "Purnima, Ekadashi, Panchami",
-                "purpose": "Knowledge, prosperity, Jupiter blessings, temple use",
-                "tips": "Brass vessels, bells, and idols are auspicious. Never use cracked brass in puja.",
-                "nse_symbol": "Zinc/Copper MCX — Brass alloy exposure",
-                "color": "#CFB53B",
-                "bg": "#1A1800",
-            },
-        ]
-
-        # ── Display metal cards in 2 columns ──
-        for i in range(0, len(metals), 2):
-            col_a, col_b = st.columns(2)
-            for col, idx in [(col_a, i), (col_b, i+1)]:
-                if idx >= len(metals):
-                    break
-                m = metals[idx]
-                is_favoured = m["planet"].split("/")[0].strip() in [maha_lord, antar_lord]
-                border_style = f"border:2px solid {m['color']};" if is_favoured else f"border:1px solid {m['color']}44;"
-                star = "⭐ FAVOURED FOR YOUR DASHA · " if is_favoured else ""
-                with col:
-                    st.markdown(f"""
-<div class="astro-card" style="{border_style}background:linear-gradient(135deg,{m['bg']},{m['bg']}CC);">
-  <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;">
-    <span style="font-size:1.8rem;">{m['symbol']}</span>
-    <div>
-      <div style="font-family:'Cinzel',serif;font-size:1rem;color:{m['color']};font-weight:700;">{m['name']}</div>
-      <div style="font-size:0.65rem;color:{m['color']}AA;letter-spacing:2px;">{star}Planet: {m['planet']}</div>
-    </div>
-  </div>
-  <div style="font-size:0.78rem;line-height:1.9;color:#E8E0D0;">
-    <span style="color:#8A8090;">📅 Best Day:</span> {m['best_day']}<br/>
-    <span style="color:#8A8090;">⏰ Best Time:</span> {m['best_time']}<br/>
-    <span style="color:#8A8090;">🚫 Avoid:</span> {m['avoid']}<br/>
-    <span style="color:#8A8090;">🌙 Best Tithi:</span> {m['best_tithi']}<br/>
-    <span style="color:#8A8090;">🎯 Purpose:</span> {m['purpose']}<br/>
-    <span style="color:#8A8090;">💡 Tip:</span> {m['tips']}<br/>
-    <span style="color:{m['color']}99;font-size:0.72rem;">📈 Market:</span>
-    <span style="color:{m['color']}99;font-size:0.72rem;"> {m['nse_symbol']}</span>
-  </div>
-</div>""", unsafe_allow_html=True)
-
-        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-
-        # ── Today's buying verdict ──
-        st.markdown('<div class="sec-head">📅 Today\'s Metal Buying Verdict</div>', unsafe_allow_html=True)
-
-        today_wd = today.strftime("%A")
-        day_metal_map = {
-            "Sunday":    ("Gold", "🥇", "#FFD700"),
-            "Monday":    ("Silver", "🥈", "#C0C0C0"),
-            "Tuesday":   ("Copper/Iron", "🔶", "#B87333"),
-            "Wednesday": ("Mixed Alloys", "⚙️", "#88AA88"),
-            "Thursday":  ("Brass/Gold", "🟡", "#CFB53B"),
-            "Friday":    ("Silver/Platinum", "⬜", "#E5E4E2"),
-            "Saturday":  ("Iron/Lead", "⚫", "#708090"),
-        }
-        today_metal, today_metal_icon, today_metal_color = day_metal_map.get(today_wd, ("Any", "✨", "#C9A84C"))
-        rk_start, rk_end = rk
-
-        st.markdown(f"""
-<div class="astro-card">
-  <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;">
-    <div style="flex:1;min-width:200px;">
-      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">TODAY — {today_wd.upper()}</div>
-      <div style="font-size:1.6rem;color:{today_metal_color};font-family:'Cinzel',serif;font-weight:700;">
-        {today_metal_icon} {today_metal}
-      </div>
-      <div style="font-size:0.8rem;color:#8A8090;margin-top:0.3rem;">Most auspicious metal to buy today</div>
-    </div>
-    <div style="flex:1;min-width:200px;">
-      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">BEST WINDOW</div>
-      <div style="background:#0F2A1A;border:1px solid #27AE60;border-radius:8px;padding:0.5rem 0.8rem;">
-        <span style="color:#2ECC71;font-family:'Cinzel',serif;">🟢 {abh[0]} – {abh[1]}</span>
-        <div style="font-size:0.7rem;color:#8A8090;">Abhijit Muhurta</div>
-      </div>
-    </div>
-    <div style="flex:1;min-width:200px;">
-      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">AVOID BUYING</div>
-      <div style="background:#2A0F0F;border:1px solid #C0392B;border-radius:8px;padding:0.5rem 0.8rem;">
-        <span style="color:#E74C3C;font-family:'Cinzel',serif;">🔴 {rk_start} – {rk_end}</span>
-        <div style="font-size:0.7rem;color:#8A8090;">Rahu Kalam</div>
-      </div>
-    </div>
-  </div>
-</div>""", unsafe_allow_html=True)
-
-        # ── Akshaya Tritiya countdown ──
-        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-head">🌟 Auspicious Metal Buying Festivals</div>', unsafe_allow_html=True)
-
-        festivals = [
-            ("Akshaya Tritiya",    "Most auspicious day for buying Gold — whatever you buy grows endlessly", "🥇 Gold, Silver"),
-            ("Dhanteras",          "Buy metals & new items — Lakshmi enters homes with new purchases", "🥇 Gold, 🥈 Silver, ⚙️ Iron"),
-            ("Diwali (Lakshmi Puja)","Puja with gold/silver idols — attracts Lakshmi for the year", "🥇 Gold coins, 🥈 Silver Lakshmi"),
-            ("Purnima (Full Moon)", "Every full moon is auspicious for silver — Moon's energy peaks", "🥈 Silver"),
-            ("Guruvayur Ekadashi",  "Sacred day for brass and gold donations — Jupiter blessings", "🟡 Brass, 🥇 Gold"),
-            ("Navratri",           "9 days — copper and gold offerings to Devi — increases shakti", "🔶 Copper, 🥇 Gold"),
-        ]
-
-        for fest, desc, metals_rec in festivals:
-            st.markdown(f"""
-<div style="background:linear-gradient(135deg,#13132A,#1A1A35);border:1px solid #3A2A0A;
-            border-left:3px solid #C9A84C;border-radius:8px;padding:0.7rem 1rem;margin:0.4rem 0;
-            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-  <div>
-    <div style="font-family:'Cinzel',serif;font-size:0.88rem;color:#C9A84C;">{fest}</div>
-    <div style="font-size:0.75rem;color:#8A8090;margin-top:0.2rem;">{desc}</div>
-  </div>
-  <div style="font-size:0.75rem;color:#E8E0D0;background:#2A2A4A;padding:0.3rem 0.7rem;border-radius:6px;">{metals_rec}</div>
-</div>""", unsafe_allow_html=True)
-
-        st.markdown("""
-<div class="disclaimer-box" style="margin-top:1rem;">
-  ⚠️ Metal buying recommendations are based on Vedic astrology traditions for spiritual and cultural purposes only.
-  Investment in gold/silver ETFs or physical metals should be based on financial advice from a SEBI-registered advisor.
-  Prices of metals fluctuate and past performance does not guarantee returns.
-</div>""", unsafe_allow_html=True)
-
 # ─────────────────────────────────────────────
 #  MAIN DASHBOARD
 # ─────────────────────────────────────────────
@@ -1846,7 +1631,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
         col1, col2 = st.columns(2)
         with col1:
             if not ai_for_pdf:
-                st.markdown('<span class="pill-warn">⚠ Generate analysis first for complete report</span>', unsafe_allow_html=True)
+                st.markdown('<span class="pill-warn">⚠ Generate AI analysis first for complete report</span>', unsafe_allow_html=True)
             else:
                 st.markdown('<span class="pill-good">✓ AI Analysis ready for PDF</span>', unsafe_allow_html=True)
 
@@ -1865,6 +1650,220 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 <div class="disclaimer-box" style="margin-top:1.5rem;">
   📜 <strong>Legal Disclaimer:</strong> This PDF report is generated for spiritual and cultural guidance purposes only, based on Vedic astrology traditions followed by the Hindu community. It is NOT registered financial or investment advice under SEBI regulations. The creators of VedicTrade are not responsible for any financial decisions made based on this report. Always consult a SEBI-registered financial advisor for investment decisions.
 </div>""", unsafe_allow_html=True)
+
+    # ─── TAB 6: METALS & BUYING ───
+    with tab6:
+        st.markdown('<div class="sec-head">🥇 Vedic Metals & Auspicious Buying Guide</div>', unsafe_allow_html=True)
+
+        # ── Intro card ──
+        st.markdown(f"""
+<div class="astro-card">
+  <div style="font-size:0.88rem;color:#E8E0D0;line-height:1.8;">
+    In Vedic tradition, each metal is governed by a planet. Buying metals on the <span style="color:#C9A84C;">day ruled by their governing planet</span>
+    during an auspicious Choghadiya window is believed to multiply prosperity.
+    Based on your <span style="color:#C9A84C;">{maha_lord} Mahadasha</span>, your most favoured metals are highlighted below.
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Metal data ──
+        metals = [
+            {
+                "name": "Gold",
+                "symbol": "🥇",
+                "planet": "Sun",
+                "best_day": "Sunday (Ravi Vara)",
+                "best_time": "Abhijit Muhurta / Amrit/Labh Choghadiya",
+                "avoid": "Rahu Kalam, Amavasya (New Moon)",
+                "best_tithi": "Akshaya Tritiya, Dhanteras, Purnima",
+                "purpose": "Wealth, authority, health, father's blessings",
+                "tips": "Buy gold in odd weight (e.g., 10g, 21g). Never gift empty wallets.",
+                "nse_symbol": "GOLDBEES / Sovereign Gold Bond",
+                "color": "#FFD700",
+                "bg": "#2A2000",
+            },
+            {
+                "name": "Silver",
+                "symbol": "🥈",
+                "planet": "Moon",
+                "best_day": "Monday (Soma Vara)",
+                "best_time": "Morning Amrit Choghadiya",
+                "avoid": "Rahu Kalam, Krishna Paksha Ashtami",
+                "best_tithi": "Purnima (Full Moon), Ekadashi, Chaturthi",
+                "purpose": "Peace, emotions, mother's blessings, fertility",
+                "tips": "Silver coins, idols of Lakshmi/Ganesha are best. Avoid broken/dented silver.",
+                "nse_symbol": "SILVERBEES / Silver ETF",
+                "color": "#C0C0C0",
+                "bg": "#1A1A2A",
+            },
+            {
+                "name": "Copper",
+                "symbol": "🔶",
+                "planet": "Venus / Mars",
+                "best_day": "Friday (Shukra Vara) or Tuesday (Mangala Vara)",
+                "best_time": "Labh or Shubh Choghadiya",
+                "avoid": "Rahu Kalam, Saturdays",
+                "best_tithi": "Navami, Tritiya",
+                "purpose": "Health, relationships, vitality, Mars energy",
+                "tips": "Copper water vessels (lota) and copper coins are traditional. Clean with lemon.",
+                "nse_symbol": "COPPERETF / Copper MCX Futures",
+                "color": "#B87333",
+                "bg": "#2A1A00",
+            },
+            {
+                "name": "Platinum",
+                "symbol": "⬜",
+                "planet": "Saturn / Venus",
+                "best_day": "Saturday (Shani Vara) or Friday",
+                "best_time": "Char or Labh Choghadiya",
+                "avoid": "Rahu Kalam, Ashtami",
+                "best_tithi": "Chaturdashi, Purnima",
+                "purpose": "Discipline, longevity, career stability",
+                "tips": "Newer metal in Vedic context — treat as Saturn metal. Best for long-term holding.",
+                "nse_symbol": "Platinum ETF / MCX Platinum",
+                "color": "#E5E4E2",
+                "bg": "#1A1A1A",
+            },
+            {
+                "name": "Lead / Iron",
+                "symbol": "⚙️",
+                "planet": "Saturn",
+                "best_day": "Saturday (Shani Vara)",
+                "best_time": "Afternoon Char Choghadiya",
+                "avoid": "Sunrise hour, Sundays",
+                "best_tithi": "Amavasya, Chaturdashi",
+                "purpose": "Protection, warding off negative energy, Saturn remedies",
+                "tips": "Iron horseshoe, iron ring on middle finger. Donate iron on Saturdays for Saturn relief.",
+                "nse_symbol": "STEELETF / Iron & Steel sector",
+                "color": "#708090",
+                "bg": "#111118",
+            },
+            {
+                "name": "Brass (Pital)",
+                "symbol": "🟡",
+                "planet": "Jupiter",
+                "best_day": "Thursday (Guru Vara)",
+                "best_time": "Morning Amrit or Shubh Choghadiya",
+                "avoid": "Rahu Kalam, Amavasya",
+                "best_tithi": "Purnima, Ekadashi, Panchami",
+                "purpose": "Knowledge, prosperity, Jupiter blessings, temple use",
+                "tips": "Brass vessels, bells, and idols are auspicious. Never use cracked brass in puja.",
+                "nse_symbol": "Zinc/Copper MCX — Brass alloy exposure",
+                "color": "#CFB53B",
+                "bg": "#1A1800",
+            },
+        ]
+
+        # ── Display metal cards in 2 columns ──
+        for i in range(0, len(metals), 2):
+            col_a, col_b = st.columns(2)
+            for col, idx in [(col_a, i), (col_b, i+1)]:
+                if idx >= len(metals):
+                    break
+                m = metals[idx]
+                is_favoured = m["planet"].split("/")[0].strip() in [maha_lord, antar_lord]
+                border_style = f"border:2px solid {m['color']};" if is_favoured else f"border:1px solid {m['color']}44;"
+                star = "⭐ FAVOURED FOR YOUR DASHA · " if is_favoured else ""
+                with col:
+                    st.markdown(f"""
+<div class="astro-card" style="{border_style}background:linear-gradient(135deg,{m['bg']},{m['bg']}CC);">
+  <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;">
+    <span style="font-size:1.8rem;">{m['symbol']}</span>
+    <div>
+      <div style="font-family:'Cinzel',serif;font-size:1rem;color:{m['color']};font-weight:700;">{m['name']}</div>
+      <div style="font-size:0.65rem;color:{m['color']}AA;letter-spacing:2px;">{star}Planet: {m['planet']}</div>
+    </div>
+  </div>
+  <div style="font-size:0.78rem;line-height:1.9;color:#E8E0D0;">
+    <span style="color:#8A8090;">📅 Best Day:</span> {m['best_day']}<br/>
+    <span style="color:#8A8090;">⏰ Best Time:</span> {m['best_time']}<br/>
+    <span style="color:#8A8090;">🚫 Avoid:</span> {m['avoid']}<br/>
+    <span style="color:#8A8090;">🌙 Best Tithi:</span> {m['best_tithi']}<br/>
+    <span style="color:#8A8090;">🎯 Purpose:</span> {m['purpose']}<br/>
+    <span style="color:#8A8090;">💡 Tip:</span> {m['tips']}<br/>
+    <span style="color:{m['color']}99;font-size:0.72rem;">📈 Market:</span>
+    <span style="color:{m['color']}99;font-size:0.72rem;"> {m['nse_symbol']}</span>
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+
+        # ── Today's buying verdict ──
+        st.markdown('<div class="sec-head">📅 Today\'s Metal Buying Verdict</div>', unsafe_allow_html=True)
+
+        today_wd = today.strftime("%A")
+        day_metal_map = {
+            "Sunday":    ("Gold", "🥇", "#FFD700"),
+            "Monday":    ("Silver", "🥈", "#C0C0C0"),
+            "Tuesday":   ("Copper/Iron", "🔶", "#B87333"),
+            "Wednesday": ("Mixed Alloys", "⚙️", "#88AA88"),
+            "Thursday":  ("Brass/Gold", "🟡", "#CFB53B"),
+            "Friday":    ("Silver/Platinum", "⬜", "#E5E4E2"),
+            "Saturday":  ("Iron/Lead", "⚫", "#708090"),
+        }
+        today_metal, today_metal_icon, today_metal_color = day_metal_map.get(today_wd, ("Any", "✨", "#C9A84C"))
+        rk_start, rk_end = rk
+
+        st.markdown(f"""
+<div class="astro-card">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;">
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">TODAY — {today_wd.upper()}</div>
+      <div style="font-size:1.6rem;color:{today_metal_color};font-family:'Cinzel',serif;font-weight:700;">
+        {today_metal_icon} {today_metal}
+      </div>
+      <div style="font-size:0.8rem;color:#8A8090;margin-top:0.3rem;">Most auspicious metal to buy today</div>
+    </div>
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">BEST WINDOW</div>
+      <div style="background:#0F2A1A;border:1px solid #27AE60;border-radius:8px;padding:0.5rem 0.8rem;">
+        <span style="color:#2ECC71;font-family:'Cinzel',serif;">🟢 {abh[0]} – {abh[1]}</span>
+        <div style="font-size:0.7rem;color:#8A8090;">Abhijit Muhurta</div>
+      </div>
+    </div>
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#8A8090;letter-spacing:2px;margin-bottom:0.4rem;">AVOID BUYING</div>
+      <div style="background:#2A0F0F;border:1px solid #C0392B;border-radius:8px;padding:0.5rem 0.8rem;">
+        <span style="color:#E74C3C;font-family:'Cinzel',serif;">🔴 {rk_start} – {rk_end}</span>
+        <div style="font-size:0.7rem;color:#8A8090;">Rahu Kalam</div>
+      </div>
+    </div>
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        # ── Akshaya Tritiya countdown ──
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-head">🌟 Auspicious Metal Buying Festivals</div>', unsafe_allow_html=True)
+
+        festivals = [
+            ("Akshaya Tritiya",    "Most auspicious day for buying Gold — whatever you buy grows endlessly", "🥇 Gold, Silver"),
+            ("Dhanteras",          "Buy metals & new items — Lakshmi enters homes with new purchases", "🥇 Gold, 🥈 Silver, ⚙️ Iron"),
+            ("Diwali (Lakshmi Puja)","Puja with gold/silver idols — attracts Lakshmi for the year", "🥇 Gold coins, 🥈 Silver Lakshmi"),
+            ("Purnima (Full Moon)", "Every full moon is auspicious for silver — Moon's energy peaks", "🥈 Silver"),
+            ("Guruvayur Ekadashi",  "Sacred day for brass and gold donations — Jupiter blessings", "🟡 Brass, 🥇 Gold"),
+            ("Navratri",           "9 days — copper and gold offerings to Devi — increases shakti", "🔶 Copper, 🥇 Gold"),
+        ]
+
+        for fest, desc, metals_rec in festivals:
+            st.markdown(f"""
+<div style="background:linear-gradient(135deg,#13132A,#1A1A35);border:1px solid #3A2A0A;
+            border-left:3px solid #C9A84C;border-radius:8px;padding:0.7rem 1rem;margin:0.4rem 0;
+            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+  <div>
+    <div style="font-family:'Cinzel',serif;font-size:0.88rem;color:#C9A84C;">{fest}</div>
+    <div style="font-size:0.75rem;color:#8A8090;margin-top:0.2rem;">{desc}</div>
+  </div>
+  <div style="font-size:0.75rem;color:#E8E0D0;background:#2A2A4A;padding:0.3rem 0.7rem;border-radius:6px;">{metals_rec}</div>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown("""
+<div class="disclaimer-box" style="margin-top:1rem;">
+  ⚠️ Metal buying recommendations are based on Vedic astrology traditions for spiritual and cultural purposes only.
+  Investment in gold/silver ETFs or physical metals should be based on financial advice from a SEBI-registered advisor.
+  Prices of metals fluctuate and past performance does not guarantee returns.
+</div>""", unsafe_allow_html=True)
+
 
 # ─────────────────────────────────────────────
 #  MAIN
