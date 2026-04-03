@@ -1212,14 +1212,14 @@ User Profile:
 """
         lang_instruction = UI.get(st.session_state.get("language","English"), UI["English"]).get("lang_instruction","Respond in English.")
         if question:
-            prompt = f"{context}\n\n{lang_instruction}\n\nUser Question: {question}\n\nProvide a thoughtful Vedic astrology based response about trading/investments. Keep it practical and under 250 words."
+            prompt = f"{context}\n\n{lang_instruction}\n\nUser Question: {question}\n\nProvide a complete, thoughtful Vedic astrology based response about trading/investments. Always write complete sentences — never leave a sentence unfinished. Be practical and thorough. Do NOT cut off mid-sentence."
         else:
-            prompt = f"{context}\n\n{lang_instruction}\n\nGenerate a comprehensive Vedic trading analysis for today. Include:\n1. Overall energy for trading today based on Panchanga\n2. Dasha analysis and what it means for wealth\n3. Best time windows for trading today\n4. Sectors to focus on\n5. One specific Vedic mantra or practice for financial prosperity\n\nKeep response under 400 words. Be insightful and practical."
+            prompt = f"{context}\n\n{lang_instruction}\n\nGenerate a comprehensive Vedic trading analysis for today. Include:\n1. Overall energy for trading today based on Panchanga\n2. Dasha analysis and what it means for wealth\n3. Best time windows for trading today\n4. Sectors to focus on\n5. One specific Vedic mantra or practice for financial prosperity\n\nAlways write COMPLETE sentences and paragraphs — never stop mid-sentence. Finish every point fully before ending. Be insightful and practical."
 
         resp = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role":"user","content":prompt}],
-            max_tokens=500,
+            max_tokens=1500,  # Increased for Malayalam/Hindi which use more tokens per character
             temperature=0.7
         )
         return resp.choices[0].message.content
