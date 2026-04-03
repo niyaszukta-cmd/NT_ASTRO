@@ -19,6 +19,252 @@ LOGO_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAW
 LOGO_B64_PDF = "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"  # smaller version for PDF embedding
 LOGO_PATH = None  # not used — logo is embedded
 
+# ─────────────────────────────────────────────
+#  LANGUAGE STRINGS
+# ─────────────────────────────────────────────
+
+LANGUAGES = {
+    "English":  "🇬🇧 English",
+    "Malayalam": "🇮🇳 മലയാളം",
+    "Hindi":    "🇮🇳 हिंदी",
+}
+
+UI = {
+    "English": {
+        "your_profile": "📋 Your Profile",
+        "your_name": "Your Name",
+        "name_placeholder": "e.g. Arjun Menon",
+        "dob": "Date of Birth",
+        "nakshatra_label": "Birth Nakshatra (Janam Nakshatra)",
+        "sunrise": "Sunrise Time (Hour)",
+        "sunset": "Sunset Time (Hour)",
+        "language": "🌐 Language",
+        "ai_ready": "🤖 VedicAI Ready",
+        "ai_offline": "⚠ VedicAI Offline — Add GROQ_API_KEY to secrets.toml",
+        "generate_btn": "🔱 Generate My Dashboard",
+        "tab_muhurta": "🕐 Muhurta Timer",
+        "tab_dasha": "🪐 Dasha Profile",
+        "tab_sector": "📊 Sector Map",
+        "tab_ai": "🤖 VedicAI Chat",
+        "tab_pdf": "📥 PDF Report",
+        "tab_metals": "🥇 Metals & Buying",
+        "choghadiya_head": "📿 Today's Choghadiya",
+        "key_muhurtas": "⚡ Key Muhurtas",
+        "rahu_avoid": "RAHU KALAM — AVOID",
+        "abhijit_best": "ABHIJIT MUHURTA — BEST",
+        "avoid_trades": "Avoid new entries/exits",
+        "most_auspicious": "Most auspicious window",
+        "panchanga_today": "TODAY'S PANCHANGA",
+        "chog_guide": "📖 Choghadiya Guide",
+        "dasha_head": "🪐 Mahadasha",
+        "trade_strength": "📅 Trading Strength",
+        "wealth_ind": "💰 Wealth Indicators",
+        "monthly_cal": "📅 Monthly Trading Auspiciousness",
+        "lucky_sectors": "🎯 Your Lucky Sectors",
+        "planet_map": "🪐 Planet → Sector Map",
+        "radar_head": "🕸️ Sector Strength Radar",
+        "guidance_head": "💡 Trading Guidance",
+        "ai_section": "🤖 VedicAI — Ask Your Trading Questions",
+        "gen_analysis": T("gen_analysis"),
+        "clear_chat": T("clear_chat"),
+        "ask_vedic": "💬 Ask VedicAI",
+        "ask_btn": T("ask_btn"),
+        "chat_placeholder": "e.g. Is this week good for buying IT stocks?",
+        "suggestions": [
+            "Is today good for F&O trading?",
+            "What sectors should I focus on this month?",
+            "How is my Dasha affecting my wealth?",
+            "When is the next auspicious period for big investments?",
+        ],
+        "pdf_head": "📥 Download Your Vedic Trading Report",
+        "pdf_gen_btn": T("pdf_gen_btn"),
+        "pdf_ready": "✓ AI Analysis ready for PDF",
+        "pdf_warn": "⚠ Generate AI analysis first for complete report",
+        "metals_head": "🥇 Vedic Metals & Auspicious Buying Guide",
+        "metals_intro": "In Vedic tradition, each metal is governed by a planet. Buying metals on the <span style='color:#C9A84C;'>day ruled by their governing planet</span> during an auspicious Choghadiya window is believed to multiply prosperity.",
+        "todays_verdict": "📅 Today's Metal Buying Verdict",
+        "festivals_head": "🌟 Auspicious Metal Buying Festivals",
+        "best_day": "📅 Best Day",
+        "best_time": "⏰ Best Time",
+        "avoid": "🚫 Avoid",
+        "best_tithi": "🌙 Best Tithi",
+        "purpose": "🎯 Purpose",
+        "tip": "💡 Tip",
+        "market": "📈 Market",
+        "vedic_ai_label": "✨ VedicAI Daily Analysis",
+        "vedic_you": "👤 You",
+        "vedic_bot": "🔱 VedicAI",
+        "spinning": "Consulting the stars...",
+        "suggested": T("suggested"),
+        "pdf_report_title": "VedicTrade - Astro Finance Report",
+        "pdf_powered": "Powered by NyzTrade Financial Solutions",
+        "pdf_disclaimer": (
+            "DISCLAIMER: This report is for spiritual and cultural guidance only, based on Vedic astrology traditions. "
+            "It is NOT SEBI-registered investment advice. The creators of VedicTrade are not responsible for any financial "
+            "decisions made based on this report. Always consult a SEBI-registered financial advisor before investing. "
+            "Past astrological alignments do not guarantee future market performance."
+        ),
+        "lang_instruction": "Respond in clear, simple English.",
+    },
+
+    "Malayalam": {
+        "your_profile": "📋 നിങ്ങളുടെ പ്രൊഫൈൽ",
+        "your_name": "നിങ്ങളുടെ പേര്",
+        "name_placeholder": "ഉദാ: അർജുൻ മേനോൻ",
+        "dob": "ജനനതീയതി",
+        "nakshatra_label": "ജന്മ നക്ഷത്രം",
+        "sunrise": "സൂര്യോദയ സമയം (മണിക്കൂർ)",
+        "sunset": "സൂര്യാസ്ത സമയം (മണിക്കൂർ)",
+        "language": "🌐 ഭാഷ",
+        "ai_ready": "🤖 VedicAI സജ്ജമാണ്",
+        "ai_offline": "⚠ VedicAI ഓഫ്‌ലൈൻ — secrets.toml-ൽ GROQ_API_KEY ചേർക്കുക",
+        "generate_btn": "🔱 എന്റെ ഡാഷ്‌ബോർഡ് തുറക്കൂ",
+        "tab_muhurta": "🕐 മുഹൂർത്ത ടൈമർ",
+        "tab_dasha": "🪐 ദശ പ്രൊഫൈൽ",
+        "tab_sector": "📊 മേഖല ഭൂപടം",
+        "tab_ai": "🤖 VedicAI ചാറ്റ്",
+        "tab_pdf": "📥 PDF റിപ്പോർട്ട്",
+        "tab_metals": "🥇 ലോഹങ്ങൾ & വാങ്ങൽ",
+        "choghadiya_head": "📿 ഇന്നത്തെ ചോഗടിയ",
+        "key_muhurtas": "⚡ പ്രധാന മുഹൂർത്തങ്ങൾ",
+        "rahu_avoid": "രാഹുകാലം — ഒഴിവാക്കുക",
+        "abhijit_best": "അഭിജിത് മുഹൂർത്തം — ഏറ്റവും ശുഭം",
+        "avoid_trades": "പുതിയ ട്രേഡ് ഒഴിവാക്കുക",
+        "most_auspicious": "ഏറ്റവും ശുഭകരമായ സമയം",
+        "panchanga_today": "ഇന്നത്തെ പഞ്ചാംഗം",
+        "chog_guide": "📖 ചോഗടിയ ഗൈഡ്",
+        "dasha_head": "🪐 മഹാദശ",
+        "trade_strength": "📅 ട്രേഡിംഗ് ശക്തി",
+        "wealth_ind": "💰 സമ്പത്ത് സൂചകങ്ങൾ",
+        "monthly_cal": "📅 മാസം തോറുമുള്ള ട്രേഡിംഗ് കലണ്ടർ",
+        "lucky_sectors": "🎯 നിങ്ങളുടെ ഭാഗ്യ മേഖലകൾ",
+        "planet_map": "🪐 ഗ്രഹം → മേഖല ഭൂപടം",
+        "radar_head": "🕸️ മേഖല ശക്തി റഡാർ",
+        "guidance_head": "💡 ട്രേഡിംഗ് നിർദ്ദേശം",
+        "ai_section": "🤖 VedicAI — നിങ്ങളുടെ ചോദ്യങ്ങൾ ചോദിക്കൂ",
+        "gen_analysis": "🔮 ഇന്നത്തെ പൂർണ്ണ വിശകലനം",
+        "clear_chat": "🔄 ചാറ്റ് മായ്‌ക്കുക",
+        "ask_vedic": "💬 VedicAI-നോട് ചോദിക്കൂ",
+        "ask_btn": "ചോദിക്കൂ 🔮",
+        "chat_placeholder": "ഉദാ: ഈ ആഴ്‌ച IT സ്റ്റോക്ക് വാങ്ങാൻ നല്ലതാണോ?",
+        "suggestions": [
+            "ഇന്ന് F&O ട്രേഡിംഗ് ശുഭകരമാണോ?",
+            "ഈ മാസം ഏത് മേഖലയിൽ ശ്രദ്ധിക്കണം?",
+            "എന്റെ ദശ സമ്പത്തിനെ എങ്ങനെ ബാധിക്കുന്നു?",
+            "വലിയ നിക്ഷേപത്തിന് അടുത്ത ശുഭ മുഹൂർത്തം എന്ന്?",
+        ],
+        "pdf_head": "📥 നിങ്ങളുടെ വൈദിക ട്രേഡിംഗ് റിപ്പോർട്ട് ഡൗൺലോഡ് ചെയ്യൂ",
+        "pdf_gen_btn": "📄 PDF ഇപ്പോൾ തയ്യാറാക്കൂ",
+        "pdf_ready": "✓ AI വിശകലനം PDF-ന് തയ്യാർ",
+        "pdf_warn": "⚠ ആദ്യം AI വിശകലനം നടത്തുക",
+        "metals_head": "🥇 വൈദിക ലോഹങ്ങൾ & ശുഭ വാങ്ങൽ ഗൈഡ്",
+        "metals_intro": "വൈദിക പാരമ്പര്യത്തിൽ, ഓരോ ലോഹവും ഒരു ഗ്രഹത്താൽ നിയന്ത്രിക്കപ്പെടുന്നു. <span style='color:#C9A84C;'>ഗ്രഹത്തിന്റെ ഭരണദിനത്തിൽ</span> ശുഭ ചോഗടിയ സമയത്ത് ലോഹം വാങ്ങുന്നത് സമ്പൽ‌സമൃദ്ധി കൂട്ടുമെന്ന് വിശ്വസിക്കപ്പെടുന്നു.",
+        "todays_verdict": "📅 ഇന്നത്തെ ലോഹ വാങ്ങൽ നിർദ്ദേശം",
+        "festivals_head": "🌟 ശുഭ ലോഹ വാങ്ങൽ ഉത്സവങ്ങൾ",
+        "best_day": "📅 ഏറ്റവും നല്ല ദിവസം",
+        "best_time": "⏰ ഏറ്റവും നല്ല സമയം",
+        "avoid": "🚫 ഒഴിവാക്കുക",
+        "best_tithi": "🌙 ഏറ്റവും നല്ല തിഥി",
+        "purpose": "🎯 ഉദ്ദേശ്യം",
+        "tip": "💡 നുറുങ്ങ്",
+        "market": "📈 മാർക്കറ്റ്",
+        "vedic_ai_label": "✨ VedicAI ദൈനംദിന വിശകലനം",
+        "vedic_you": "👤 നിങ്ങൾ",
+        "vedic_bot": "🔱 VedicAI",
+        "spinning": "നക്ഷത്രങ്ങളോട് ആലോചിക്കുന്നു...",
+        "suggested": "നിർദ്ദേശിത ചോദ്യങ്ങൾ",
+        "pdf_report_title": "VedicTrade - ജ്യോതിഷ ധനകാര്യ റിപ്പോർട്ട്",
+        "pdf_powered": "NyzTrade Financial Solutions ആൽ പ്രവർത്തിക്കുന്നു",
+        "pdf_disclaimer": (
+            "നിരാകരണം: ഈ റിപ്പോർട്ട് വൈദിക ജ്യോതിഷ പാരമ്പര്യത്തെ അടിസ്ഥാനമാക്കിയുള്ള ആത്മീയ മാർഗ്ഗദർശനം മാത്രമാണ്. "
+            "ഇത് SEBI അംഗീകൃത നിക്ഷേപ ഉപദേശമല്ല. നിക്ഷേപ തീരുമാനങ്ങൾ എടുക്കുന്നതിന് മുൻപ് SEBI-രജിസ്റ്റേർഡ് ധനകാര്യ ഉപദേഷ്ടാവിനെ സമീപിക്കുക."
+        ),
+        "lang_instruction": "ദയവായി ലളിതമായ മലയാളത്തിൽ ഉത്തരം നൽകുക. ഇംഗ്ലീഷ് പദങ്ങൾ ആവശ്യമെങ്കിൽ മാത്രം ഉപയോഗിക്കുക.",
+    },
+
+    "Hindi": {
+        "your_profile": "📋 आपकी प्रोफ़ाइल",
+        "your_name": "आपका नाम",
+        "name_placeholder": "जैसे: अर्जुन मेनन",
+        "dob": "जन्म तिथि",
+        "nakshatra_label": "जन्म नक्षत्र",
+        "sunrise": "सूर्योदय समय (घंटे)",
+        "sunset": "सूर्यास्त समय (घंटे)",
+        "language": "🌐 भाषा",
+        "ai_ready": "🤖 VedicAI तैयार है",
+        "ai_offline": "⚠ VedicAI ऑफ़लाइन — secrets.toml में GROQ_API_KEY जोड़ें",
+        "generate_btn": "🔱 मेरा डैशबोर्ड बनाएं",
+        "tab_muhurta": "🕐 मुहूर्त टाइमर",
+        "tab_dasha": "🪐 दशा प्रोफ़ाइल",
+        "tab_sector": "📊 सेक्टर मैप",
+        "tab_ai": "🤖 VedicAI चैट",
+        "tab_pdf": "📥 PDF रिपोर्ट",
+        "tab_metals": "🥇 धातु और खरीदारी",
+        "choghadiya_head": "📿 आज का चौघड़िया",
+        "key_muhurtas": "⚡ मुख्य मुहूर्त",
+        "rahu_avoid": "राहुकाल — बचें",
+        "abhijit_best": "अभिजित मुहूर्त — सर्वश्रेष्ठ",
+        "avoid_trades": "नई पोजीशन से बचें",
+        "most_auspicious": "सबसे शुभ समय",
+        "panchanga_today": "आज का पंचांग",
+        "chog_guide": "📖 चौघड़िया गाइड",
+        "dasha_head": "🪐 महादशा",
+        "trade_strength": "📅 ट्रेडिंग शक्ति",
+        "wealth_ind": "💰 धन सूचक",
+        "monthly_cal": "📅 मासिक ट्रेडिंग कैलेंडर",
+        "lucky_sectors": "🎯 आपके भाग्यशाली सेक्टर",
+        "planet_map": "🪐 ग्रह → सेक्टर मैप",
+        "radar_head": "🕸️ सेक्टर शक्ति रडार",
+        "guidance_head": "💡 ट्रेडिंग मार्गदर्शन",
+        "ai_section": "🤖 VedicAI — अपने सवाल पूछें",
+        "gen_analysis": "🔮 आज का पूरा विश्लेषण",
+        "clear_chat": "🔄 चैट साफ़ करें",
+        "ask_vedic": "💬 VedicAI से पूछें",
+        "ask_btn": "पूछें 🔮",
+        "chat_placeholder": "जैसे: क्या इस हफ्ते IT स्टॉक खरीदना अच्छा है?",
+        "suggestions": [
+            "क्या आज F&O ट्रेडिंग शुभ है?",
+            "इस महीने किस सेक्टर पर ध्यान दें?",
+            "मेरी दशा मेरे धन को कैसे प्रभावित करती है?",
+            "बड़े निवेश के लिए अगला शुभ मुहूर्त कब है?",
+        ],
+        "pdf_head": "📥 अपनी वैदिक ट्रेडिंग रिपोर्ट डाउनलोड करें",
+        "pdf_gen_btn": "📄 अभी PDF बनाएं",
+        "pdf_ready": "✓ AI विश्लेषण PDF के लिए तैयार",
+        "pdf_warn": "⚠ पहले AI विश्लेषण करें",
+        "metals_head": "🥇 वैदिक धातु और शुभ खरीदारी गाइड",
+        "metals_intro": "वैदिक परंपरा में, प्रत्येक धातु एक ग्रह द्वारा शासित होती है। <span style='color:#C9A84C;'>ग्रह के शासन दिन</span> शुभ चौघड़िया में धातु खरीदना समृद्धि बढ़ाता है।",
+        "todays_verdict": "📅 आज की धातु खरीद सलाह",
+        "festivals_head": "🌟 शुभ धातु खरीद त्योहार",
+        "best_day": "📅 सबसे अच्छा दिन",
+        "best_time": "⏰ सबसे अच्छा समय",
+        "avoid": "🚫 बचें",
+        "best_tithi": "🌙 सबसे अच्छी तिथि",
+        "purpose": "🎯 उद्देश्य",
+        "tip": "💡 सुझाव",
+        "market": "📈 बाज़ार",
+        "vedic_ai_label": "✨ VedicAI दैनिक विश्लेषण",
+        "vedic_you": "👤 आप",
+        "vedic_bot": "🔱 VedicAI",
+        "spinning": "ग्रहों से पूछ रहे हैं...",
+        "suggested": "सुझाए गए सवाल",
+        "pdf_report_title": "VedicTrade - ज्योतिष वित्त रिपोर्ट",
+        "pdf_powered": "NyzTrade Financial Solutions द्वारा संचालित",
+        "pdf_disclaimer": (
+            "अस्वीकरण: यह रिपोर्ट वैदिक ज्योतिष परंपराओं पर आधारित आध्यात्मिक मार्गदर्शन के लिए है। "
+            "यह SEBI पंजीकृत निवेश सलाह नहीं है। निवेश निर्णय लेने से पहले SEBI-पंजीकृत वित्तीय सलाहकार से परामर्श लें। "
+            "पिछले ज्योतिषीय संयोग भविष्य के बाज़ार प्रदर्शन की गारंटी नहीं देते।"
+        ),
+        "lang_instruction": "कृपया सरल हिंदी में जवाब दें। अंग्रेज़ी शब्द केवल जरूरत पड़ने पर इस्तेमाल करें।",
+    },
+}
+
+def T(key: str) -> str:
+    """Get UI string for current language from session state"""
+    lang = st.session_state.get("language", "English")
+    return UI.get(lang, UI["English"]).get(key, UI["English"].get(key, key))
+
+
 def get_logo_base64(path=None):
     return LOGO_B64
 
@@ -890,10 +1136,7 @@ def generate_pdf(user_data: dict, analysis_data: dict, ai_text: str):
     pdf.set_text_color(120, 60, 20)
     pdf.set_font("Helvetica", "I", 7.5)
     pdf.multi_cell(0, 4,
-        "DISCLAIMER: This report is for spiritual and cultural guidance only, based on Vedic astrology traditions. "
-        "It is NOT SEBI-registered investment advice. The creators of VedicTrade are not responsible for any financial "
-        "decisions made based on this report. Always consult a SEBI-registered financial advisor before investing. "
-        "Past astrological alignments do not guarantee future market performance.",
+        UI.get(st.session_state.get("language","English"), UI["English"])["pdf_disclaimer"],
         fill=True
     )
 
@@ -967,10 +1210,11 @@ User Profile:
 - Rahu Kalam Today: {analysis_data.get('rahu_kalam',('',''))[0]} to {analysis_data.get('rahu_kalam',('',''))[1]}
 - Abhijit Muhurta: {analysis_data.get('abhijit',('',''))[0]} to {analysis_data.get('abhijit',('',''))[1]}
 """
+        lang_instruction = UI.get(st.session_state.get("language","English"), UI["English"]).get("lang_instruction","Respond in English.")
         if question:
-            prompt = f"{context}\n\nUser Question: {question}\n\nProvide a thoughtful Vedic astrology based response about trading/investments. Keep it practical and under 250 words."
+            prompt = f"{context}\n\n{lang_instruction}\n\nUser Question: {question}\n\nProvide a thoughtful Vedic astrology based response about trading/investments. Keep it practical and under 250 words."
         else:
-            prompt = f"{context}\n\nGenerate a comprehensive Vedic trading analysis for today. Include:\n1. Overall energy for trading today based on Panchanga\n2. Dasha analysis and what it means for wealth\n3. Best time windows for trading today\n4. Sectors to focus on\n5. One specific Vedic mantra or practice for financial prosperity\n\nKeep response under 350 words. Be insightful and practical."
+            prompt = f"{context}\n\n{lang_instruction}\n\nGenerate a comprehensive Vedic trading analysis for today. Include:\n1. Overall energy for trading today based on Panchanga\n2. Dasha analysis and what it means for wealth\n3. Best time windows for trading today\n4. Sectors to focus on\n5. One specific Vedic mantra or practice for financial prosperity\n\nKeep response under 400 words. Be insightful and practical."
 
         resp = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
@@ -1263,28 +1507,46 @@ def sidebar():
 <div class="gold-divider"></div>
 """, unsafe_allow_html=True)
 
-        st.markdown('<div class="sec-head">📋 Your Profile</div>', unsafe_allow_html=True)
-        name = st.text_input("Your Name", placeholder="e.g. Arjun Menon")
-        dob  = st.date_input("Date of Birth",
+        # ── Language selector FIRST ──
+        st.markdown('<div class="sec-head">🌐 Language / ഭാഷ / भाषा</div>', unsafe_allow_html=True)
+        lang_choice = st.radio(
+            "", list(LANGUAGES.values()),
+            index=list(LANGUAGES.values()).index(
+                LANGUAGES.get(st.session_state.get("language","English"), LANGUAGES["English"])
+            ),
+            horizontal=True, label_visibility="collapsed"
+        )
+        # Map display value back to key
+        lang_key = {v:k for k,v in LANGUAGES.items()}.get(lang_choice, "English")
+        if st.session_state.get("language") != lang_key:
+            st.session_state["language"] = lang_key
+            # Clear analysis so it regenerates in new language
+            st.session_state.pop("ai_daily", None)
+            st.session_state.pop("chat_history", None)
+
+        st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("your_profile")}</div>', unsafe_allow_html=True)
+        name = st.text_input(T("your_name"), placeholder=T("name_placeholder"))
+        dob  = st.date_input(T("dob"),
                              value=datetime.date(1990,1,1),
                              min_value=datetime.date(1940,1,1),
                              max_value=datetime.date(2005,12,31))
-        nakshatra = st.selectbox("Birth Nakshatra (Janam Nakshatra)", NAKSHATRAS)
-        sunrise   = st.slider("Sunrise Time (Hour)", 5.5, 7.5, 6.25, 0.25,
+        nakshatra = st.selectbox(T("nakshatra_label"), NAKSHATRAS)
+        sunrise   = st.slider(T("sunrise"), 5.5, 7.5, 6.25, 0.25,
                               help="Approximate sunrise for your city")
-        sunset    = st.slider("Sunset Time (Hour)", 17.5, 19.5, 18.25, 0.25)
+        sunset    = st.slider(T("sunset"), 17.5, 19.5, 18.25, 0.25)
 
         st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-        # Check if Groq secret is configured — show status only, no input
+        # VedicAI status from secrets
         try:
             _key = st.secrets["GROQ_API_KEY"]
-            _ai_status = '<span class="pill-good">🤖 VedicAI Ready</span>'
+            _ai_status = f'<span class="pill-good">{T("ai_ready")}</span>'
         except Exception:
-            _ai_status = '<span class="pill-warn">⚠ VedicAI Offline — Add GROQ_API_KEY to secrets.toml</span>'
+            _ai_status = f'<span class="pill-warn">{T("ai_offline")}</span>'
         st.markdown(_ai_status, unsafe_allow_html=True)
 
         st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-        generate = st.button("🔱 Generate My Dashboard", use_container_width=True)
+        generate = st.button(T("generate_btn"), use_container_width=True)
 
         st.markdown("""
 <div style="margin-top:2rem;padding:0.8rem;background:#0D0D20;border-radius:8px;
@@ -1362,12 +1624,12 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 
     # ── TABS ──
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "🕐 Muhurta Timer",
-        "🪐 Dasha Profile",
-        "📊 Sector Map",
-        "🤖 VedicAI Chat",
-        "📥 PDF Report",
-        "🥇 Metals & Buying"
+        T("tab_muhurta"),
+        T("tab_dasha"),
+        T("tab_sector"),
+        T("tab_ai"),
+        T("tab_pdf"),
+        T("tab_metals"),
     ])
 
     # ─── TAB 1: MUHURTA ───
@@ -1375,7 +1637,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
         col1, col2 = st.columns([1.4, 1])
 
         with col1:
-            st.markdown('<div class="sec-head">📿 Today\'s Choghadiya</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="sec-head">{T("choghadiya_head")}</div>', unsafe_allow_html=True)
             st.markdown('<div class="astro-card">', unsafe_allow_html=True)
 
             now = datetime.datetime.now()
@@ -1398,7 +1660,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col2:
-            st.markdown('<div class="sec-head">⚡ Key Muhurtas</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="sec-head">{T("key_muhurtas")}</div>', unsafe_allow_html=True)
             st.markdown(f"""
 <div class="astro-card">
   <div style="margin-bottom:1rem;">
@@ -1486,14 +1748,14 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 </div>""", unsafe_allow_html=True)
 
         st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-head">📅 Monthly Trading Auspiciousness</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("monthly_cal")}</div>', unsafe_allow_html=True)
         st.plotly_chart(monthly_trading_calendar(dob, nakshatra), use_container_width=True)
 
     # ─── TAB 3: SECTORS ───
     with tab3:
         col1, col2 = st.columns([1, 1.2])
         with col1:
-            st.markdown('<div class="sec-head">🎯 Your Lucky Sectors</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="sec-head">{T("lucky_sectors")}</div>', unsafe_allow_html=True)
             st.markdown('<div class="astro-card">', unsafe_allow_html=True)
             for i, s in enumerate(sectors):
                 bar = "█" * int((7-i)*2) + "░" * (i*2)
@@ -1511,7 +1773,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 </div>""", unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
-            st.markdown('<div class="sec-head">🪐 Planet → Sector Map</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="sec-head">{T("planet_map")}</div>', unsafe_allow_html=True)
             st.markdown('<div class="astro-card">', unsafe_allow_html=True)
             highlight = [maha_lord, antar_lord]
             for planet, sects in SECTOR_PLANET.items():
@@ -1526,7 +1788,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col2:
-            st.markdown('<div class="sec-head">🕸️ Sector Strength Radar</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="sec-head">{T("radar_head")}</div>', unsafe_allow_html=True)
             st.plotly_chart(sector_radar(sectors[:6], maha_lord), use_container_width=True)
 
             st.markdown(f"""
@@ -1549,7 +1811,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 
     # ─── TAB 4: AI CHAT ───
     with tab4:
-        st.markdown('<div class="sec-head">🤖 VedicAI — Ask Your Trading Questions</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("ai_section")}</div>', unsafe_allow_html=True)
 
         if "ai_daily" not in st.session_state:
             st.session_state.ai_daily = ""
@@ -1568,20 +1830,20 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
                 st.session_state.ai_daily = ""
 
         if st.session_state.ai_daily:
-            st.markdown(f'<div class="ai-box">✨ <b style="color:#C9A84C;font-family:Cinzel,serif;">VedicAI Daily Analysis</b><br/><br/>{st.session_state.ai_daily}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="ai-box">✨ <b style="color:#C9A84C;font-family:Cinzel,serif;">{T("vedic_ai_label")}</b><br/><br/>{st.session_state.ai_daily}</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-head">💬 Ask VedicAI</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("ask_vedic")}</div>', unsafe_allow_html=True)
 
         # Chat history
         for msg in st.session_state.chat_history:
             role_color = "#C9A84C" if msg["role"]=="assistant" else "#8B5CF6"
-            role_label = "🔱 VedicAI" if msg["role"]=="assistant" else "👤 You"
+            role_label = T("vedic_bot") if msg["role"]=="assistant" else T("vedic_you")
             st.markdown(f'<div class="ai-box" style="margin-bottom:0.8rem;border-left-color:{role_color};"><b style="color:{role_color};font-family:Cinzel,serif;">{role_label}</b><br/>{msg["content"]}</div>', unsafe_allow_html=True)
 
         q_col, btn_col = st.columns([4,1])
         with q_col:
-            user_q = st.text_input("", placeholder="e.g. Is this week good for buying IT stocks? Which sectors should I avoid?", label_visibility="collapsed")
+            user_q = st.text_input("", placeholder=T("chat_placeholder"), label_visibility="collapsed")
         with btn_col:
             ask_btn = st.button("Ask 🔮", use_container_width=True)
 
@@ -1609,7 +1871,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 
     # ─── TAB 5: PDF ───
     with tab5:
-        st.markdown('<div class="sec-head">📥 Download Your Vedic Trading Report</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("pdf_head")}</div>', unsafe_allow_html=True)
         st.markdown("""
 <div class="astro-card">
   <div style="font-size:0.9rem;color:#E8E0D0;line-height:1.8;margin-bottom:1rem;">
@@ -1631,9 +1893,9 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
         col1, col2 = st.columns(2)
         with col1:
             if not ai_for_pdf:
-                st.markdown('<span class="pill-warn">⚠ Generate AI analysis first for complete report</span>', unsafe_allow_html=True)
+                st.markdown(f'<span class="pill-warn">{T("pdf_warn")}</span>', unsafe_allow_html=True)
             else:
-                st.markdown('<span class="pill-good">✓ AI Analysis ready for PDF</span>', unsafe_allow_html=True)
+                st.markdown(f'<span class="pill-good">{T("pdf_ready")}</span>', unsafe_allow_html=True)
 
         with col2:
             if st.button("📄 Generate PDF Now", use_container_width=True):
@@ -1653,7 +1915,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
 
     # ─── TAB 6: METALS & BUYING ───
     with tab6:
-        st.markdown('<div class="sec-head">🥇 Vedic Metals & Auspicious Buying Guide</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("metals_head")}</div>', unsafe_allow_html=True)
 
         # ── Intro card ──
         st.markdown(f"""
@@ -1661,7 +1923,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
   <div style="font-size:0.88rem;color:#E8E0D0;line-height:1.8;">
     In Vedic tradition, each metal is governed by a planet. Buying metals on the <span style="color:#C9A84C;">day ruled by their governing planet</span>
     during an auspicious Choghadiya window is believed to multiply prosperity.
-    Based on your <span style="color:#C9A84C;">{maha_lord} Mahadasha</span>, your most favoured metals are highlighted below.
+    {T('metals_intro')} <br/>Based on your <span style="color:#C9A84C;">{maha_lord} Mahadasha</span>, your most favoured metals are highlighted below.
   </div>
 </div>""", unsafe_allow_html=True)
 
@@ -1790,7 +2052,7 @@ def show_dashboard(name, dob, nakshatra, sunrise, sunset):
         st.markdown('<div class="gold-divider"></div>', unsafe_allow_html=True)
 
         # ── Today's buying verdict ──
-        st.markdown('<div class="sec-head">📅 Today\'s Metal Buying Verdict</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-head">{T("todays_verdict")}</div>', unsafe_allow_html=True)
 
         today_wd = today.strftime("%A")
         day_metal_map = {
